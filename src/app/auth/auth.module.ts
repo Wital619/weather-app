@@ -4,13 +4,11 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
-import {LogoutComponent} from './logout/logout.component';
 
 @NgModule({
   declarations: [
     LoginComponent,
-    RegisterComponent,
-    LogoutComponent
+    RegisterComponent
   ],
   imports: [
     CommonModule,
@@ -19,8 +17,7 @@ import {LogoutComponent} from './logout/logout.component';
   ],
   exports: [
     LoginComponent,
-    RegisterComponent,
-    LogoutComponent
+    RegisterComponent
   ]
 })
 export class AuthModule { }

@@ -14,8 +14,12 @@
   width: 100%;
   padding: 15px;
 
-  &__label {
-    margin-bottom: 12px;
+  &__group {
+    margin-bottom: 8px;
+
+    &--last {
+      margin-bottom: 0;
+    }
   }
 
   &__input {
@@ -36,14 +40,5 @@
     &::placeholder {
       color: $main-black;
     }
-  }
-}
-
-.btn-auth {
-  background-color: #008000;
-  color: #fff;
-
-  &:hover {
-    background-color: #006700;
   }
 }

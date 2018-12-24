@@ -1,0 +1,28 @@
+.btn-auth--email {
+  margin-top: 8px;
+  background-color: #008000;
+
+  &:hover {
+    background-color: #006700;
+  }
+
+  &:disabled {
+    background-color: transparent;
+  }
+}
+
+.btn-auth--facebook {
+  background-color: #347ab7;
+
+  &:hover {
+    background: #2e6da3;
+  }
+}
+
+.btn-auth--google {
+  background-color: #d9534f;
+
+  &:hover {
+    background: #d43f3a;
+  }
+}

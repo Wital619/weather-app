@@ -5,7 +5,6 @@ import {LoginComponent} from './auth/login/login.component';
 import {RegisterComponent} from './auth/register/register.component';
 import {NotFoundComponent} from './shared/not-found/not-found.component';
 import {WeatherBoxComponent} from './weather/weather-box/weather-box.component';
-import {LogoutComponent} from './auth/logout/logout.component';
 
 export const routes: Routes = [
   {
@@ -16,10 +15,6 @@ export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
-  },
-  {
-    path: 'logout',
-    component: LogoutComponent
   },
   {
     path: 'register',

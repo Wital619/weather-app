@@ -1,1 +1,12 @@
 @import "../../styles/form";
+@import "../../styles/button";
+
+.auth-buttons {
+  display: flex;
+  flex-direction: column;
+  padding: 0 15px;
+
+  & button:first-child {
+    margin-bottom: 15px;
+  }
+}

@@ -1,20 +1,64 @@
 <div class="form-wrapper">
-  <form class="form">
-    <label class="form__label">
-      Name
-      <input class="form__input" type="text" placeholder="Type email">
-    </label>
-    <label class="form__label">
-      Email
-      <input class="form__input" type="email" placeholder="Type email">
-    </label>
-    <label class="form__label">
-      Password
-      <input class="form__input" type="password" placeholder="Type password">
-    </label>
-    <label class="form__label">
-      Confirm password
-      <input class="form__input" type="password" placeholder="Type password again">
-    </label>
+  <form class="form" [formGroup]="registerForm" (ngSubmit)="registerByEmailAndPassword()" novalidate>
+    <div class="form__group">
+      <label for="userName">Name</label>
+      <input class="form__input"
+             id="userName"
+             formControlName="userName"
+             type="text"
+             placeholder="Type your name">
+      <div *ngIf="submitted && userName.errors" class="error-block">
+        <div *ngIf="userName.errors.required">Name is required</div>
+        <div *ngIf="userName.errors.maxLength">Name must be 100 characters or less</div>
+      </div>
+    </div>
+    <div class="form__group">
+      <label for="email">Email</label>
+      <input class="form__input"
+             id="email"
+             formControlName="email"
+             type="email"
+             placeholder="Type your email">
+      <div *ngIf="submitted && email.errors" class="error-block">
+        <div *ngIf="email.errors.required">Email is required</div>
+        <div *ngIf="email.errors.maxLength">Email must be 100 characters or less</div>
+        <div *ngIf="email.errors.emailInvalid">Email must be a valid email address</div>
+      </div>
+    </div>
+    <div formGroupName="passwords">
+      <div class="form__group">
+        <label for="password">Password</label>
+        <input class="form__input"
+               id="password"
+               formControlName="password"
+               type="password"
+               placeholder="Type your password">
+        <div *ngIf="submitted && password.errors" class="error-block">
+          <div *ngIf="password.errors.required">Password is required</div>
+          <div *ngIf="password.errors.minlength">Password must be at least 8 characters</div>
+          <div *ngIf="password.errors.maxlength">Password must be 100 characters or less</div>
+          <div *ngIf="password.errors.passwordWithoutNumber">
+            Password must contain at least 1 number
+          </div>
+          <div *ngIf="password.errors.passwordWithoutUpperLetter">
+            Password must contain at least 1 upper letter
+          </div>
+        </div>
+      </div>
+      <div class="form__group form__group--last">
+        <label for="confirm">Confirm password</label>
+        <input class="form__input"
+               id="confirm"
+               formControlName="confirmPassword"
+               type="password"
+               placeholder="Type your password again">
+      </div>
+      <div *ngIf="submitted && passwords.errors" class="error-block">
+        <div *ngIf="passwords.errors.mismatch">
+          Password and Confirm Password must be equal each other
+        </div>
+      </div>
+    </div>
+    <button class="btn-auth--email" type="submit">Register</button>
   </form>
 </div>
