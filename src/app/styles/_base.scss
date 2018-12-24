@@ -1,0 +1,54 @@
+@import "./vars";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  font: 16px/1 Arial, sans-serif;
+  color: $main-black;
+  background-color: $body-bg-color;
+}
+
+p {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
+ul,
+li {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+button {
+  padding: 5px;
+  background-color: $main-grey;
+  border-radius: 5px;
+  border: 1px solid #555;
+  outline: none;
+  cursor: pointer;
+  font-size: 16px;
+}
