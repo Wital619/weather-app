@@ -1,52 +1,72 @@
-import { Injectable } from '@angular/core';
-import { AngularFireAuth} from '@angular/fire/auth';
-import { AngularFireDatabase} from '@angular/fire/database';
+import {Injectable} from '@angular/core';
+import {AngularFireAuth} from '@angular/fire/auth';
 import * as firebase from 'firebase/app';
+import {Subject} from 'rxjs';
+
+import {AuthUser} from '../models/auth-user.interface';
+import UserCredential = firebase.auth.UserCredential;
+import {RegData} from '../models/reg-data.model';
 
 @Injectable()
 export class AuthService {
-  userId: string;
+  private authUser: AuthUser;
+  private authUserSource = new Subject;
+  readonly authUser$ = this.authUserSource.asObservable();
 
-  constructor(public authService: AngularFireAuth,
-              public dbService: AngularFireDatabase) {
-    this.authService.authState.subscribe(
-      user => {
+  constructor(public firebaseAuth: AngularFireAuth) {
+    this.attachUserListener();
+  }
+
+  attachUserListener () {
+    this.firebaseAuth.authState
+      .subscribe(user => {
         if (user) {
-          console.log(user);
-          this.userId = user.uid;
+          this.authUser = {
+            id: user.uid,
+            email: user.email,
+            displayName: user.displayName
+          };
+
+          this.authUserSource.next(this.authUser);
+        } else {
+          this.authUser = null;
+          this.authUserSource.next(null);
         }
       });
   }
 
-  doRegister ({userName, email, password}) {
-    return firebase.auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then(() => {
-        this.dbService
-          .list('/users')
-          .push({ userName, email });
+  async doRegister (regData: RegData): Promise<void> {
+    try {
+      const {user} = await this.firebaseAuth.auth.createUserWithEmailAndPassword(regData.email, regData.password);
+
+      this.doSignOut();
+
+      return await user.updateProfile({
+        displayName: regData.userName,
+        photoURL: null
       });
+    } catch (err) {
+      return Promise.reject(err);
+    }
   }
 
-  doLogin (email, password) {
-    return firebase.auth().signInWithEmailAndPassword(email, password);
+  loginByEmailAndPassword ({ email, password }): Promise<UserCredential> {
+    return this.firebaseAuth.auth.signInWithEmailAndPassword(email, password);
   }
 
-  doSignOut () {
-    return firebase.auth().signOut();
+  loginByFacebook (): Promise<UserCredential> {
+    return this.firebaseAuth.auth.signInWithPopup(
+      new firebase.auth.FacebookAuthProvider()
+    );
   }
 
-  doFacebookLogin () {
-    const provider = new firebase.auth.FacebookAuthProvider();
-
-    return this.authService.auth.signInWithPopup(provider);
+  loginByGoogle (): Promise<UserCredential> {
+    return this.firebaseAuth.auth.signInWithPopup(
+      new firebase.auth.GoogleAuthProvider()
+    );
   }
 
-  doGoogleLogin () {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    provider.addScope('profile');
-    provider.addScope('email');
-
-    return this.authService.auth.signInWithPopup(provider);
+  doSignOut (): Promise<void> {
+    return this.firebaseAuth.auth.signOut();
   }
 }

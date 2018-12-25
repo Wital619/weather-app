@@ -1,38 +1,58 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
 import {AuthService} from '../auth.service';
 import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
-  providers: [AuthService]
+  styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
+  userData = {
+    email: '',
+    password: ''
+  };
 
   constructor(private authService: AuthService,
               private router: Router) {}
 
-  ngOnInit() {
-  }
-
-  loginByEmailAndPassword () {
-    this.authService.doLogin(1, 2);
-  }
-
-  loginByFacebook () {
-    this.authService.doFacebookLogin()
+  doLogin () {
+    this.authService.loginByEmailAndPassword(this.userData)
       .then(
-        () => this.router.navigate(['/weather']),
-        err => console.log('Couldn\'t login by facebook', err)
+        () => {
+          this.navigateToWeather();
+        },
+        err => {
+          console.error('Couldn\'t login by email and password', err);
+        }
       );
   }
 
-  loginByGoogle () {
-    this.authService.doGoogleLogin()
+  doFacebookLogin () {
+    this.authService.loginByFacebook()
       .then(
-        () => this.router.navigate(['/weather']),
-        err => console.log('Couldn\'t login by facebook', err)
+        () => {
+          this.navigateToWeather();
+        },
+        err => {
+          console.error('Couldn\'t login by Facebook', err);
+        }
       );
+  }
+
+  doGoogleLogin () {
+    this.authService.loginByGoogle()
+      .then(
+        () => {
+          this.navigateToWeather();
+        },
+        err => {
+          console.error('Couldn\'t login by Google', err);
+        }
+      );
+  }
+
+  navigateToWeather () {
+    this.router.navigate(['/weather']);
   }
 }

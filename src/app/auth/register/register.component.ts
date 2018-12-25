@@ -2,12 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AuthService} from '../auth.service';
+import {RegData} from '../../models/reg-data.model';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss'],
-  providers: [AuthService]
+  styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
@@ -66,14 +66,20 @@ export class RegisterComponent implements OnInit {
     this.submitted = true;
 
     if (this.registerForm.valid) {
-      this.authService.doRegister({
+      const regData: RegData = {
         userName: this.userName.value,
         email: this.email.value,
         password: this.password.value,
-      })
+      };
+
+      this.authService.doRegister(regData)
         .then(
-          () => this.router.navigate(['/weather']),
-          err => console.log('Couldn\'t register', err)
+          () => {
+            this.router.navigate(['/login']);
+          },
+          err => {
+            console.error('Couldn\'t register', err);
+          }
         );
     }
   }

@@ -1,7 +1,7 @@
 <div class="form-wrapper">
   <form class="form" [formGroup]="registerForm" (ngSubmit)="registerByEmailAndPassword()" novalidate>
     <div class="form__group">
-      <label for="userName">Name</label>
+      <label class="form__label" for="userName">Name</label>
       <input class="form__input"
              id="userName"
              formControlName="userName"
@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="form__group">
-      <label for="email">Email</label>
+      <label class="form__label" for="email">Email</label>
       <input class="form__input"
              id="email"
              formControlName="email"
@@ -27,7 +27,7 @@
     </div>
     <div formGroupName="passwords">
       <div class="form__group">
-        <label for="password">Password</label>
+        <label class="form__label" for="password">Password</label>
         <input class="form__input"
                id="password"
                formControlName="password"
@@ -46,7 +46,7 @@
         </div>
       </div>
       <div class="form__group form__group--last">
-        <label for="confirm">Confirm password</label>
+        <label class="form__label" for="confirm">Confirm password</label>
         <input class="form__input"
                id="confirm"
                formControlName="confirmPassword"
@@ -59,6 +59,6 @@
         </div>
       </div>
     </div>
-    <button class="btn-auth--email" type="submit">Register</button>
+    <button class="btn btn-auth--email" type="submit">Register</button>
   </form>
 </div>

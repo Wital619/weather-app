@@ -1,5 +1,16 @@
-.btn-auth--email {
+.btn {
   margin-top: 8px;
+  padding: 5px;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+  background-color: $main-grey;
+  color: #fff;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.btn-auth--email {
   background-color: #008000;
 
   &:hover {
