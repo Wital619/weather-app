@@ -1,15 +1,16 @@
 import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import * as firebase from 'firebase/app';
-import {Subject} from 'rxjs';
+import UserCredential = firebase.auth.UserCredential;
 
 import {AuthUser} from '../models/auth-user.interface';
-import UserCredential = firebase.auth.UserCredential;
 import {RegData} from '../models/reg-data.model';
+import {Subject} from 'rxjs';
 
 @Injectable()
 export class AuthService {
   private authUser: AuthUser;
+
   private authUserSource = new Subject;
   readonly authUser$ = this.authUserSource.asObservable();
 
@@ -26,7 +27,6 @@ export class AuthService {
             email: user.email,
             displayName: user.displayName
           };
-
           this.authUserSource.next(this.authUser);
         } else {
           this.authUser = null;
@@ -35,19 +35,17 @@ export class AuthService {
       });
   }
 
-  async doRegister (regData: RegData): Promise<void> {
-    try {
-      const {user} = await this.firebaseAuth.auth.createUserWithEmailAndPassword(regData.email, regData.password);
-
-      this.doSignOut();
-
-      return await user.updateProfile({
-        displayName: regData.userName,
-        photoURL: null
-      });
-    } catch (err) {
-      return Promise.reject(err);
-    }
+  doRegister (regData: RegData): Promise<void> {
+    return this.firebaseAuth.auth
+      .createUserWithEmailAndPassword(regData.email, regData.password)
+      .then(({ user }) => {
+        return user.updateProfile({
+          displayName: regData.userName,
+          photoURL: null
+        });
+      })
+      .then(() => this.doSignOut())
+      .catch(err => Promise.reject(err));
   }
 
   loginByEmailAndPassword ({ email, password }): Promise<UserCredential> {

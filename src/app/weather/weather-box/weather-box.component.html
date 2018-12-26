@@ -1,3 +1,4 @@
-<p>
-  weather-box works!
-</p>
+<div class="content-wrapper">
+  <app-search (gotSuggestions)="getSuggestions($event)"></app-search>
+  <app-suggestions [suggestions]="suggestions"></app-suggestions>
+</div>
