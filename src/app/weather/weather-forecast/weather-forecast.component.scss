@@ -1,0 +1,28 @@
+.forecast-header {
+  margin: 15px 0;
+  text-align: center;
+  color: green;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 5px;
+  padding: 10px;
+  border: 1px solid #000;
+}
+
+.date {
+  text-align: center;
+
+  &__day-number {
+    font-size: 24px;
+  }
+}
