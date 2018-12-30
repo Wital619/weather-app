@@ -1,6 +1,6 @@
 import {Inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {map} from 'rxjs/operators';
+import {map, startWith} from 'rxjs/operators';
 
 import {CARDINAL_POINTS} from '../consts';
 import {environment} from '../../environments/environment';
@@ -9,19 +9,29 @@ import {
   ForecastItem,
   ForecastWind
 } from '../models/forecast.interface';
+import {Subject} from 'rxjs';
 
 @Injectable()
 export class WeatherService {
-  API_URL = 'http://api.openweathermap.org/data/2.5/';
+  private currentTabIndexSource = new Subject<number>();
+  currentTabIndex$ = this.currentTabIndexSource
+    .asObservable()
+    .pipe(startWith(this.moment().day()));
 
   urls = {
-    find: `${this.API_URL}find?appid=${environment.api}&type=like&q=`,
-    forecast: `${this.API_URL}forecast?appid=${environment.api}&q=`,
-    weather: `${this.API_URL}weather?appid=${environment.api}&q=`,
+    find: `http://api.openweathermap.org/data/2.5/find?appid=${environment.api}&type=like&q=`,
+    forecast: `http://api.openweathermap.org/data/2.5/forecast?appid=${environment.api}&q=`,
+    weather: `http://api.openweathermap.org/data/2.5/weather?appid=${environment.api}&q=`,
   };
 
-  constructor (private http: HttpClient,
-               @Inject('moment') private moment) {}
+  constructor (
+    private http: HttpClient,
+    @Inject('moment') private moment
+  ) {}
+
+  setCurrentTabIndex (index: number) {
+    this.currentTabIndexSource.next(index);
+  }
 
   getSearchSuggestions (searchText) {
     return this.http.get(`${this.urls.find}${searchText}`);
@@ -62,7 +72,7 @@ export class WeatherService {
     let prevIndex: number = null;
 
     forecastList.forEach(forecastItem => {
-      const moment = this.moment(forecastItem.dt * 1000);
+      const moment = this.moment(forecastItem.dt_txt);
 
       const dayIndex = moment.day();
       const dayName = moment.format('dddd');
@@ -70,7 +80,7 @@ export class WeatherService {
       const month = moment.format('MMMM');
 
       if (dayIndex !== prevIndex) {
-        tabData.push({ dayName, dayNumber, month });
+        tabData.push({ dayName, dayNumber, dayIndex, month });
         dividedForecastList[dayIndex] = [].concat(forecastItem);
 
         prevIndex = dayIndex;

@@ -3,7 +3,7 @@ export interface Forecast  {
   list: ForecastItem[];
 }
 
-interface ForecastCity {
+export interface ForecastCity {
   country: string;
   name: string;
   population: number;
@@ -47,10 +47,13 @@ export interface ForecastWind {
 
 export interface DividedForecast {
   city: ForecastCity;
-  tabData: {
-    dayName: string;
-    dayNumber: number;
-    month: number;
-  }[];
+  tabData: TabData[];
   list: ForecastItem[][];
+}
+
+export interface TabData {
+  dayName: string;
+  dayNumber: number;
+  dayIndex: number;
+  month: number;
 }

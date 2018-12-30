@@ -2,7 +2,7 @@ export const PRESSURE_COEFFICIENT = 0.750064;
 
 export const CARDINAL_POINTS = [
   {
-    minimumAzimuth: 337.51,
+    minimumAzimuth: 337.5,
     maximumAzimuth: 360,
     dirMark: '↑',
     dirText: 'North'
@@ -14,44 +14,44 @@ export const CARDINAL_POINTS = [
     dirText: 'North'
   },
   {
-    minimumAzimuth: 22.51,
+    minimumAzimuth: 22.5,
     maximumAzimuth: 67.5,
     dirMark: '↗',
     dirText: 'Northeast'
   },
   {
-    minimumAzimuth: 67.51,
+    minimumAzimuth: 67.5,
     maximumAzimuth: 112.5,
     dirMark: '→',
     dirText: 'East'
   },
   {
-    minimumAzimuth: 112.51,
+    minimumAzimuth: 112.5,
     maximumAzimuth: 157.5,
     dirMark: '↘',
     dirText: 'Southeast'
   },
   {
-    minimumAzimuth: 157.51,
+    minimumAzimuth: 157.5,
     maximumAzimuth: 202.5,
     dirMark: '↓',
     dirText: 'South'
   },
 
   {
-    minimumAzimuth: 202.51,
+    minimumAzimuth: 202.5,
     maximumAzimuth: 247.5,
     dirMark: '↙',
     dirText: 'Southwest'
   },
   {
-    minimumAzimuth: 247.51,
+    minimumAzimuth: 247.5,
     maximumAzimuth: 292.5,
     dirMark: '←',
     dirText: 'West'
   },
   {
-    minimumAzimuth: 292.51,
+    minimumAzimuth: 292.5,
     maximumAzimuth: 337.5,
     dirMark: '↖',
     dirText: 'Northwest'

@@ -1,0 +1,12 @@
+<ul class="tabs">
+  <li *ngFor="let tab of tabs"
+      (click)="onTabChange(tab.dayIndex)"
+      class="tab"
+      [class.active-tab]="tab.dayIndex === currentTabIndex">
+    <div class="date">
+      <p class="date__month">{{tab.month}}</p>
+      <p class="date__day-number">{{tab.dayNumber}}</p>
+      <p class="date__day-name">{{tab.dayName}}</p>
+    </div>
+  </li>
+</ul>

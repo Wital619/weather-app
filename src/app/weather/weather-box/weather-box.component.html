@@ -1,5 +1,13 @@
-<div class="content-wrapper">
-  <!--<app-search (gotSuggestions)="getSuggestions($event)"></app-search>
-  <app-suggestions [suggestions]="suggestions"></app-suggestions>-->
-  <app-weather-forecast></app-weather-forecast>
+<div *ngIf="city && tabs && forecastList" class="forecast-wrapper">
+  <h3 class="forecast-header">
+    Let's see weather forecast in {{city.name}}, {{city.country}}
+  </h3>
+  <app-forecast-tabs [tabs]="tabs"></app-forecast-tabs>
+  <app-forecast-list [list]="forecastList"></app-forecast-list>
 </div>
+<ngx-spinner
+  bdColor = "rgba(51, 51, 51, 0.8)"
+  size = "large"
+  color = "#fff"
+  type = "ball-8bits"
+></ngx-spinner>

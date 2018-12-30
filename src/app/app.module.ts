@@ -8,6 +8,7 @@ import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AuthModule} from './auth/auth.module';
 import {SharedModule} from './shared/shared.module';
 import {WeatherModule} from './weather/weather.module';
+import {NgxSpinnerModule} from 'ngx-spinner';
 
 import {AppComponent} from './app.component';
 
@@ -27,7 +28,8 @@ import {environment} from '../environments/environment';
     AngularFireAuthModule,
     WeatherModule,
     AuthModule,
-    SharedModule
+    SharedModule,
+    NgxSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
