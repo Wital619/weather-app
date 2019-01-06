@@ -1,0 +1,11 @@
+<div class="search-wrapper">
+  <p class="info">
+    Here you can select your city to be able to automatically receive information about the weather. <br>
+    Also you can just see forecast for found city
+  </p>
+  <app-search-input (gotSuggestions)="setSuggestions($event)"></app-search-input>
+  <app-suggestions-list
+    [suggestions]="suggestions"
+    (citySelected)="onSelectCity($event)">
+  </app-suggestions-list>
+</div>

@@ -1,7 +1,12 @@
-.btn {
+@import './vars';
+
+%with-margin {
   margin-top: 8px;
-  padding: 5px;
-  border-radius: 5px;
+}
+
+.btn {
+  padding: 6px 24px;
+  border-radius: 3px;
   outline: none;
   border: none;
   background-color: $main-grey;
@@ -10,7 +15,8 @@
   cursor: pointer;
 }
 
-.btn-auth--email {
+.btn--email {
+  @extend %with-margin;
   background-color: #008000;
 
   &:hover {
@@ -22,7 +28,8 @@
   }
 }
 
-.btn-auth--facebook {
+.btn--facebook {
+  @extend %with-margin;
   background-color: #347ab7;
 
   &:hover {
@@ -30,10 +37,31 @@
   }
 }
 
-.btn-auth--google {
+.btn--google {
+  @extend %with-margin;
   background-color: #d9534f;
 
   &:hover {
     background: #d43f3a;
+  }
+}
+
+.btn--select-city {
+  background-color: #008000;
+
+  &:hover {
+    background-color: #006700;
+  }
+
+  &:first-child {
+    margin-right: 8px;
+  }
+}
+
+.btn--follow {
+  background-color: #008000;
+
+  &:hover {
+    background-color: #006700;
   }
 }

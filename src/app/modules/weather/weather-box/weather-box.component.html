@@ -1,0 +1,20 @@
+<div *ngIf="isUserSetCity">
+  <p class="info">
+    Let's see weather forecast in {{city.name}}, {{city.country}}
+  </p>
+  <app-forecast-tabs [tabs]="tabs"></app-forecast-tabs>
+  <app-forecast-list [list]="list"></app-forecast-list>
+</div>
+<div *ngIf="!isUserSetCity" class="weather-wrapper">
+  <p class="info">
+    You haven't selected your city yet. <br>
+    Follow the link below to select a city.
+  </p>
+  <a class="btn btn--follow" (click)="goToSearch()">Link</a>
+</div>
+<ngx-spinner
+  bdColor = "rgba(51, 51, 51, 0.8)"
+  size = "large"
+  color = "#fff"
+  type = "ball-8bits"
+></ngx-spinner>

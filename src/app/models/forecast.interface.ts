@@ -4,20 +4,25 @@ export interface Forecast  {
 }
 
 export interface ForecastCity {
+  id?: number;
   country: string;
   name: string;
-  population: number;
 }
 
 export interface ForecastItem {
+  id: number;
+  name: string;
   clouds: { all: number };
   dt: number;
   dt_txt: string;
   main: ForecastMain;
   rain: { '3h': number; };
   snow: { '3h': number; };
-  sys: { pod: string };
-  weather: ForecastWeather[];
+  sys: {
+    pod: string,
+    country?: string
+  };
+  weather: ForecastWeather;
   wind: ForecastWind;
 }
 

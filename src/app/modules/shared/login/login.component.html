@@ -1,0 +1,28 @@
+<div class="form-wrapper">
+  <form class="form">
+    <div class="form__group">
+      <label class="form__label" for="email">Email</label>
+      <input class="form__input"
+             id="email"
+             type="email"
+             name="email"
+             [(ngModel)]="userData.email"
+             placeholder="Type your email">
+    </div>
+    <div class="form__group form__group--last">
+      <label class="form__label" for="password">Password</label>
+      <input class="form__input"
+             id="password"
+             type="password"
+             name="password"
+             [(ngModel)]="userData.password"
+             placeholder="Type your password">
+    </div>
+    <button class="btn btn--email" type="submit" (click)="doLogin()">Login</button>
+  </form>
+  <div class="auth-buttons">
+    Also you can login with:
+    <button class="btn btn--facebook" (click)="doFacebookLogin()">Facebook</button>
+    <button class="btn btn--google" (click)="doGoogleLogin()">Google</button>
+  </div>
+</div>

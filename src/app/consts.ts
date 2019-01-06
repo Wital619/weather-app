@@ -10,7 +10,7 @@ export const CARDINAL_POINTS = [
   {
     minimumAzimuth: 0,
     maximumAzimuth: 22.5,
-    dirMark: 'dir-north',
+    dirMark: '↑',
     dirText: 'North'
   },
   {

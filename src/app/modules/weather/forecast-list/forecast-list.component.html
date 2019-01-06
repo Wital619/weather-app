@@ -1,0 +1,25 @@
+<table class="forecast-table">
+  <tr>
+    <th>Time</th>
+    <th>Icon</th>
+    <th>Description</th>
+    <th>Pressure, mm</th>
+    <th>Wind, m/s</th>
+    <th>Humidity, %</th>
+  </tr>
+  <tr *ngFor="let forecastItem of currentList">
+    <td>{{forecastItem.dt_txt | date: 'shortTime'}}</td>
+    <td class="icon">
+      <img src="http://openweathermap.org/img/w/{{forecastItem.weather.icon}}.png" alt="">
+    </td>
+    <td>{{forecastItem.weather.description}}</td>
+    <td>{{forecastItem.main.pressure | toMillimeters}}</td>
+    <td>
+      <span class="wind-dir-icon" title="{{forecastItem.wind.dirText}}">
+        {{forecastItem.wind.dirMark}}
+      </span>
+      {{forecastItem.wind.speed | number: '.2-2'}}
+    </td>
+    <td>{{forecastItem.main.humidity}}</td>
+  </tr>
+</table>

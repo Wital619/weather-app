@@ -1,0 +1,8 @@
+<div class="header">
+  <h3 *ngIf="userName" class="header__title">
+    Hello {{userName}}! Welcome back to <span>Weather App</span>
+  </h3>
+  <h3 *ngIf="!userName" class="header__title">
+    Welcome to the best <span>Weather App</span> in the world!
+  </h3>
+</div>

@@ -1,0 +1,17 @@
+@import "../../../styles/form";
+@import "../../../styles/button";
+
+.error-block {
+  margin-top: 3px;
+  color: #f00;
+  font-size: 12px;
+
+  div {
+    margin-bottom: 3px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+

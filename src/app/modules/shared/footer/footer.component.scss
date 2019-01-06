@@ -1,0 +1,29 @@
+@import "../../../styles/vars";
+
+.footer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: $footer-height;
+  margin-top: -$footer-height;
+  background-color: $header-bg-color;
+
+  &__title,
+  &__author {
+    color: $main-grey;
+    font-size: $header-footer-size;
+    font-weight: normal;
+  }
+
+  &__author {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &__title {
+    width: 50%;
+    text-align: center;
+  }
+}

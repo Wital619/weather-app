@@ -5,13 +5,12 @@ import {AppRoutingModule} from './app-routing.module';
 import {AngularFireModule} from '@angular/fire';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {AngularFireAuthModule} from '@angular/fire/auth';
-import {AuthModule} from './auth/auth.module';
-import {SharedModule} from './shared/shared.module';
-import {WeatherModule} from './weather/weather.module';
+import {SharedModule} from './modules/shared/shared.module';
+import {WeatherModule} from './modules/weather/weather.module';
 import {NgxSpinnerModule} from 'ngx-spinner';
 
 import {AppComponent} from './app.component';
-
+import {AuthService} from './auth.service';
 import {environment} from '../environments/environment';
 
 @NgModule({
@@ -27,11 +26,10 @@ import {environment} from '../environments/environment';
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     WeatherModule,
-    AuthModule,
     SharedModule,
     NgxSpinnerModule
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

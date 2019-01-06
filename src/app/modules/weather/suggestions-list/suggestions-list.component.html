@@ -1,0 +1,21 @@
+<ul *ngIf="suggestions && suggestions.length" class="suggestions-list">
+  <li *ngFor="let suggestion of suggestions"
+      class="suggestion"
+      [class.selected]="suggestion.id === selectedSuggestionId"
+      (click)="onSelectSuggestion(suggestion.id)">
+    <img src="https://www.countryflags.io/{{suggestion.country | lowercase}}/flat/24.png"
+         class="suggestion__icon"
+         [title]="suggestion.country"
+         alt="country">
+    <p class="suggestion__city-name">{{suggestion.name}}</p>
+  </li>
+</ul>
+<div *ngIf="suggestions && !suggestions.length" class="not-found">Not found</div>
+<div class="buttons">
+  <button [hidden]="!selectedSuggestionId"
+          (click)="onSelectCity(true)"
+          class="btn btn--select-city">Select as my city</button>
+  <button [hidden]="!selectedSuggestionId"
+          (click)="onSelectCity(false)"
+          class="btn btn--select-city">See forecast</button>
+</div>
