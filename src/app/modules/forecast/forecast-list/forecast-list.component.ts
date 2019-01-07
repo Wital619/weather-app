@@ -1,6 +1,6 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ForecastItem} from '../../../models/forecast.interface';
-import {WeatherService} from '../weather.service';
+import {WeatherService} from '../../../services/weather.service';
 import {Subscription} from 'rxjs';
 
 @Component({

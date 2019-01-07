@@ -4,7 +4,7 @@ export interface Forecast  {
 }
 
 export interface ForecastCity {
-  id?: number;
+  id: number;
   country: string;
   name: string;
 }

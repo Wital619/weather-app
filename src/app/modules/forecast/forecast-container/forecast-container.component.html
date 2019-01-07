@@ -1,0 +1,43 @@
+<div class="forecast-container">
+  <div class="forecast-info">
+    <h4 class="city-title">
+      Your city:
+      <span>{{userCity ? userCity.name : '-'}}</span>
+    </h4>
+    <h4 class="reminding-header">
+      Also you were looking for:
+      {{recentCities && recentCities.length ? '' : '-'}}
+    </h4>
+    <ul *ngIf="recentCities" class="cities-list">
+      <li *ngFor="let city of recentCities; let i = index" class="cities-list__item">
+        {{city.name}}{{recentCities.length - i !== 1 ? ',' : ''}}
+      </li>
+    </ul>
+  </div>
+  <div class="forecast">
+    <div *ngIf="!list || !tabs || !city" class="forecast__content">
+      <p class="forecast__no-city-info">
+        You haven't selected your city yet.
+        Follow the link below to select a city.
+      </p>
+      <a class="btn btn--follow" (click)="goToSearch()">Link</a>
+    </div>
+    <div *ngIf="list && tabs && city" class="forecast__content">
+      <div class="forecast__info">
+        Let's see weather forecast in {{city.name}}
+        <img src="https://www.countryflags.io/{{city.country | lowercase}}/flat/24.png"
+             [title]="city.country"
+             class="forecast__info-icon"
+             alt="country">
+      </div>
+      <app-forecast-tabs [tabs]="tabs"></app-forecast-tabs>
+      <app-forecast-list [list]="list"></app-forecast-list>
+    </div>
+  </div>
+</div>
+<ngx-spinner
+  bdColor = "rgba(51, 51, 51, 0.8)"
+  size = "large"
+  color = "#fff"
+  type = "ball-8bits"
+></ngx-spinner>

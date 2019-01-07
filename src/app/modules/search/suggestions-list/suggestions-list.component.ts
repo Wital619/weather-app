@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {ForecastCity} from '../../../models/forecast.interface';
-import {WeatherService} from '../weather.service';
+import {WeatherService} from '../../../services/weather.service';
 import {Subscription} from 'rxjs';
 import {SelectedCity} from '../../../models/selected-city.interface';
 
@@ -11,7 +11,7 @@ import {SelectedCity} from '../../../models/selected-city.interface';
 })
 export class SuggestionsListComponent implements OnInit, OnDestroy {
   @Input() suggestions: ForecastCity[];
-  @Output() citySelected = new EventEmitter<SelectedCity>();
+  @Output() citySelected = new EventEmitter<[SelectedCity, boolean]>();
 
   selectedSuggestionId: number = null;
   selectedSuggestionIdSub: Subscription;
@@ -32,10 +32,14 @@ export class SuggestionsListComponent implements OnInit, OnDestroy {
   }
 
   onSelectCity (isDefault: boolean) {
-    this.citySelected.emit({
-      id: this.selectedSuggestionId,
-      isDefault
-    });
+    const selectedCity = this.suggestions.find(city => city.id === this.selectedSuggestionId);
+
+    const params = {
+      id: selectedCity.id,
+      name: selectedCity.name,
+    };
+
+    this.citySelected.emit([params, isDefault]);
   }
 
   ngOnDestroy () {

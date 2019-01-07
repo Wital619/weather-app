@@ -5,26 +5,22 @@ import {ReactiveFormsModule} from '@angular/forms';
 import * as moment from 'moment';
 import {NgxSpinnerModule} from 'ngx-spinner';
 
-import {WeatherBoxComponent} from './weather-box/weather-box.component';
-import {SearchInputComponent} from './search-input/search-input.component';
-import {SuggestionsListComponent} from './suggestions-list/suggestions-list.component';
+import {ForecastContainerComponent} from './forecast-container/forecast-container.component';
 import {ForecastTabsComponent} from './forecast-tabs/forecast-tabs.component';
 import {ForecastListComponent} from './forecast-list/forecast-list.component';
-import {SearchComponent} from './search/search.component';
+import {HomeComponent} from './home/home.component';
 
 import {PressurePipe} from '../../pipes/pressure.pipe';
 import {DayTimePipe} from '../../pipes/day-time.pipe';
 
-import {WeatherService} from './weather.service';
+import {WeatherService} from '../../services/weather.service';
 
 @NgModule({
   declarations: [
-    WeatherBoxComponent,
+    ForecastContainerComponent,
     ForecastTabsComponent,
     ForecastListComponent,
-    SearchInputComponent,
-    SuggestionsListComponent,
-    SearchComponent,
+    HomeComponent,
     PressurePipe,
     DayTimePipe
   ],
@@ -40,6 +36,6 @@ import {WeatherService} from './weather.service';
     },
     WeatherService
   ],
-  exports: [WeatherBoxComponent]
+  exports: [ForecastContainerComponent]
 })
-export class WeatherModule { }
+export class ForecastModule { }

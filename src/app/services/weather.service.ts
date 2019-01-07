@@ -1,18 +1,18 @@
 import {Inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {AngularFireDatabase} from '@angular/fire/database';
-import {map, startWith, switchMap} from 'rxjs/operators';
+import {map, startWith, switchMap, withLatestFrom} from 'rxjs/operators';
 import {Observable, of, Subject} from 'rxjs';
 
-import {AuthService} from '../../auth.service';
-import {environment} from '../../../environments/environment';
-import {CARDINAL_POINTS} from '../../consts';
+import {AuthService} from './auth.service';
+import {environment} from '../../environments/environment';
+import {CARDINAL_POINTS} from '../consts';
 import {
-  DividedForecast,
   Forecast,
   ForecastItem,
   ForecastWind
-} from '../../models/forecast.interface';
+} from '../models/forecast.interface';
+import {SelectedCity} from '../models/selected-city.interface';
 
 @Injectable()
 export class WeatherService {
@@ -52,17 +52,24 @@ export class WeatherService {
     return this.http.get(`${this.urls.find}${searchText}`);
   }
 
-  handleUserCity (): Observable<DividedForecast | null> {
+  getCityForecast (cityId?: number): Observable<any[]> {
     return this.authService.getUserCity()
       .pipe(
-        switchMap((res: any) => {
-          return res ? this.getForecast(res) : of(res);
+        switchMap((res: SelectedCity | null) => {
+          if (cityId || res) {
+            return this.getForecast(cityId || res.id)
+              .pipe(
+                withLatestFrom(of(res))
+              );
+          } else {
+            return of([null, null]);
+          }
         })
       );
   }
 
-  getForecast (city: number): Observable<object> {
-    return this.http.get(`${this.urls.forecast}${city}&units=metric`).pipe(
+  getForecast (cityId: number): Observable<object> {
+    return this.http.get(`${this.urls.forecast}${cityId}&units=metric`).pipe(
       map((res: Forecast) => {
         const list = res.list.map((item: ForecastItem) => ({
           ...item,

@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {TabData} from '../../../models/forecast.interface';
-import {WeatherService} from '../weather.service';
+import {WeatherService} from '../../../services/weather.service';
 
 @Component({
   selector: 'app-forecast-tabs',

@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {AuthService} from '../../../auth.service';
+import {AuthService} from '../../../services/auth.service';
 import {Router} from '@angular/router';
 
 @Component({
@@ -53,6 +53,6 @@ export class LoginComponent {
   }
 
   navigateToWeather () {
-    this.router.navigate(['/weather']);
+    this.router.navigate(['/forecast']);
   }
 }

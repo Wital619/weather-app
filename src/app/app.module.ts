@@ -1,16 +1,17 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {AppRoutingModule} from './app-routing.module';
+import {AppRoutingModule} from './modules/app-routing.module';
 import {AngularFireModule} from '@angular/fire';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {AngularFireAuthModule} from '@angular/fire/auth';
-import {SharedModule} from './modules/shared/shared.module';
-import {WeatherModule} from './modules/weather/weather.module';
 import {NgxSpinnerModule} from 'ngx-spinner';
+import {SharedModule} from './modules/shared/shared.module';
+import {ForecastModule} from './modules/forecast/forecast.module';
+import {SearchModule} from './modules/search/search.module';
 
 import {AppComponent} from './app.component';
-import {AuthService} from './auth.service';
+import {AuthService} from './services/auth.service';
 import {environment} from '../environments/environment';
 
 @NgModule({
@@ -25,9 +26,10 @@ import {environment} from '../environments/environment';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    WeatherModule,
+    NgxSpinnerModule,
+    ForecastModule,
     SharedModule,
-    NgxSpinnerModule
+    SearchModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

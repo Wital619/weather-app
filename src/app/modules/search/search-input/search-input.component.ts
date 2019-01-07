@@ -1,6 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 
-import {WeatherService} from '../weather.service';
+import {WeatherService} from '../../../services/weather.service';
 import {FormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, map, pluck, switchMap} from 'rxjs/operators';
 import {ForecastItem} from '../../../models/forecast.interface';
