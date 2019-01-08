@@ -64,9 +64,8 @@ export class ForecastContainerComponent implements OnInit, OnDestroy {
       });
   }
 
-  getCityForecast (): void {
-    this.weatherService.getCityForecast(this.recentCityId)
-      .pipe(takeUntil(this.destroy))
+  getCityForecast (cityId?: number): void {
+    this.weatherService.getCityForecast(cityId || this.recentCityId)
       .subscribe(
         (res: [DividedForecast, SelectedCity]) => {
           const [forecast, userCity] = res;

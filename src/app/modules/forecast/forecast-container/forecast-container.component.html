@@ -9,7 +9,9 @@
       {{recentCities && recentCities.length ? '' : '-'}}
     </h4>
     <ul *ngIf="recentCities" class="cities-list">
-      <li *ngFor="let city of recentCities; let i = index" class="cities-list__item">
+      <li *ngFor="let city of recentCities; let i = index"
+          class="cities-list__item"
+          (click)="getCityForecast(city.id)">
         {{city.name}}{{recentCities.length - i !== 1 ? ',' : ''}}
       </li>
     </ul>

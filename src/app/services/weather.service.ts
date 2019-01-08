@@ -38,6 +38,10 @@ export class WeatherService {
     this.currentTabIndexSource.next(index);
   }
 
+  setIndex (): void {
+    this.currentTabIndexSource.next(this.moment().day());
+  }
+
   resetSelectedCity (): void {
     this.resetSource.next();
   }

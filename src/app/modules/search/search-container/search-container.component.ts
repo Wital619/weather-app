@@ -31,7 +31,10 @@ export class SearchContainerComponent {
       this.authService.setUserCity(city)
         .then(
           () => {
-            this.router.navigate(['/forecast']);
+            this.authService.setRecentCity(city)
+              .then(() => {
+                this.router.navigate(['/forecast']);
+              });
           },
           err => {
             console.log(err);

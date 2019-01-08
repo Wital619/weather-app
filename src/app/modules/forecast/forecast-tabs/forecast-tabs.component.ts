@@ -11,14 +11,14 @@ export class ForecastTabsComponent {
   @Input() tabs: TabData[];
   currentTabIndex: number = null;
 
-  constructor(private weatherService: WeatherService) {
+  constructor (private weatherService: WeatherService) {
     this.weatherService.currentTabIndex$
       .subscribe((res: number) => {
         this.currentTabIndex = res;
       });
   }
 
-  onTabChange (index: number) {
+  onTabChange (index: number): void {
     this.weatherService.setCurrentTabIndex(index);
   }
 }
