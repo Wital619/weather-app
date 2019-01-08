@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {Subject} from 'rxjs';
+import {take, takeUntil, takeWhile} from 'rxjs/operators';
 import {WeatherService} from '../../../services/weather.service';
 import {
   DividedForecast,
@@ -8,9 +9,8 @@ import {
   ForecastItem,
   TabData
 } from '../../../models/forecast.interface';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {AuthService} from '../../../services/auth.service';
-import {takeUntil} from 'rxjs/operators';
 import {SelectedCity} from '../../../models/selected-city.interface';
 
 @Component({
@@ -23,7 +23,7 @@ export class ForecastContainerComponent implements OnInit, OnDestroy {
   tabs: TabData[] = [];
   city: ForecastCity = null;
 
-  recentCityId = null;
+  cityIdFromSearch = null;
   recentCities: SelectedCity[] = [];
   userCity: SelectedCity = null;
 
@@ -33,25 +33,25 @@ export class ForecastContainerComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private weatherService: WeatherService,
     private router: Router,
-    private activatedRoute: ActivatedRoute,
     private spinner: NgxSpinnerService
-  ) {
-    this.getRecentCityId();
-  }
+  ) {}
 
   ngOnInit () {
-    this.spinner.show();
-
+    this.getCityFromSearch();
     this.getUserCities();
     this.getCityForecast();
   }
 
-  getRecentCityId (): void {
-    this.activatedRoute.queryParams
-      .pipe(takeUntil(this.destroy))
+  getCityFromSearch (): void {
+    this.weatherService.recentCityId$
+      .pipe(
+        take(1),
+        takeUntil(this.destroy)
+      )
       .subscribe(
-        res => {
-          this.recentCityId = res['cityId'] || null;
+        (res: number) => {
+          console.log(res);
+          this.cityIdFromSearch = res;
         }
       );
   }
@@ -59,24 +59,30 @@ export class ForecastContainerComponent implements OnInit, OnDestroy {
   getUserCities (): void {
     this.authService.getUserCities()
       .pipe(takeUntil(this.destroy))
-      .subscribe((res: SelectedCity[] | null) => {
+      .subscribe((res: SelectedCity[]) => {
         this.recentCities = res;
       });
   }
 
-  getCityForecast (cityId?: number): void {
-    this.weatherService.getCityForecast(cityId || this.recentCityId)
+  getCityForecast (cityIdFromClick?: number): void {
+    this.spinner.show();
+
+    this.weatherService.getCityForecast(cityIdFromClick || this.cityIdFromSearch)
       .subscribe(
         (res: [DividedForecast, SelectedCity]) => {
           const [forecast, userCity] = res;
 
           if (forecast) {
             this.tabs = forecast.tabData;
-            this.list = forecast.list;
             this.city = forecast.city;
+            this.list = forecast.list;
           }
 
           this.userCity = userCity;
+
+          if (this.cityIdFromSearch) {
+            this.weatherService.setRecentCity(null);
+          }
 
           this.spinner.hide();
         },

@@ -14,7 +14,7 @@ export class HideLoginGuardService implements CanActivate {
       .pipe(
         map(user => {
           if (user) {
-            this.router.navigate(['/forecast']);
+            this.router.navigate(['/home']);
 
             return false;
           }

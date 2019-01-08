@@ -1,8 +1,14 @@
 @import "./styles/vars";
 
 .container {
-  min-height: 100%;
+  height: 100%;
   padding-bottom: 30px;
+}
+
+.content-wrapper {
+  width: 800px;
+  height: calc(100% - 60px);
+  margin: 0 auto;
 }
 
 .navigation {
@@ -12,10 +18,13 @@
 .nav-list {
   display: flex;
   justify-content: center;
-  align-items: center;
+  height: 30px;
 
   &__item {
-    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 10px;
     color: #ccc;
     font-size: 1em;
     outline: none;

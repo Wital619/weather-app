@@ -2,7 +2,7 @@ import {Inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {AngularFireDatabase} from '@angular/fire/database';
 import {map, startWith, switchMap, withLatestFrom} from 'rxjs/operators';
-import {Observable, of, Subject} from 'rxjs';
+import {Observable, of, ReplaySubject, Subject} from 'rxjs';
 
 import {AuthService} from './auth.service';
 import {environment} from '../../environments/environment';
@@ -18,8 +18,10 @@ import {SelectedCity} from '../models/selected-city.interface';
 export class WeatherService {
   private currentTabIndexSource = new Subject<number>();
   private resetSource = new Subject<void>();
+  private recentCityIdSource = new ReplaySubject<number>(1);
 
   readonly reset$ = this.resetSource.asObservable();
+  readonly recentCityId$ = this.recentCityIdSource.asObservable();
 
   urls = {
     find: `http://api.openweathermap.org/data/2.5/find?appid=${environment.api}&type=like&q=`,
@@ -38,15 +40,15 @@ export class WeatherService {
     this.currentTabIndexSource.next(index);
   }
 
-  setIndex (): void {
-    this.currentTabIndexSource.next(this.moment().day());
+  setRecentCity (cityId: number): void {
+    this.recentCityIdSource.next(cityId);
   }
 
   resetSelectedCity (): void {
     this.resetSource.next();
   }
 
-  get currentTabIndex$ () {
+  get currentTabIndex$ (): Observable<number> {
     return this.currentTabIndexSource
       .asObservable()
       .pipe(startWith(this.moment().day()));
@@ -56,7 +58,7 @@ export class WeatherService {
     return this.http.get(`${this.urls.find}${searchText}`);
   }
 
-  getCityForecast (cityId?: number): Observable<any[]> {
+  getCityForecast (cityId: number): Observable<any[]> {
     return this.authService.getUserCity()
       .pipe(
         switchMap((res: SelectedCity | null) => {

@@ -29,22 +29,30 @@ export class SearchContainerComponent {
 
     if (isDefault) {
       this.authService.setUserCity(city)
-        .then(
-          () => {
-            this.authService.setRecentCity(city)
-              .then(() => {
-                this.router.navigate(['/forecast']);
-              });
-          },
-          err => {
-            console.log(err);
-          }
-        );
+        .then(() => {
+          this.authService.setRecentCity(city)
+            .then(() => {
+              this.goToForecast();
+            });
+        })
+        .catch(err => {
+          console.log(err);
+        });
     } else {
       this.authService.setRecentCity(city)
-        .then(() => {
-          this.router.navigate(['/forecast'], { queryParams: { cityId: city.id } });
+        .then(
+          () => {
+            this.weatherService.setRecentCity(city.id);
+            this.goToForecast();
+          }
+        )
+        .catch(err => {
+          console.log(err);
         });
     }
+  }
+
+  goToForecast () {
+    this.router.navigate(['./forecast']);
   }
 }

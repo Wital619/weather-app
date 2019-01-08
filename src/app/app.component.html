@@ -12,7 +12,9 @@
       <li class="nav-list__item" (click)="doSignOut()">Sign out</li>
     </ul>
   </nav>
-  <router-outlet></router-outlet>
+  <div class="content-wrapper">
+    <router-outlet></router-outlet>
+  </div>
 </div>
 <app-footer></app-footer>
 <ngx-spinner

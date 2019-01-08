@@ -4,7 +4,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import {HeaderComponent} from './header/header.component';
 import {FooterComponent} from './footer/footer.component';
-import {NavigationComponent} from './navigation/navigation.component';
 import {NotFoundComponent} from './not-found/not-found.component';
 import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
@@ -15,7 +14,6 @@ import {AuthGuardService} from '../../guards/auth-guard.service';
   declarations: [
     HeaderComponent,
     FooterComponent,
-    NavigationComponent,
     NotFoundComponent,
     LoginComponent,
     RegisterComponent
@@ -32,7 +30,6 @@ import {AuthGuardService} from '../../guards/auth-guard.service';
   exports: [
     HeaderComponent,
     FooterComponent,
-    NavigationComponent,
     NotFoundComponent,
     LoginComponent,
     RegisterComponent

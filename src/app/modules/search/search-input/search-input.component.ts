@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 
 import {WeatherService} from '../../../services/weather.service';
 import {FormControl} from '@angular/forms';
@@ -11,7 +11,8 @@ import {Observable, of} from 'rxjs';
   templateUrl: './search-input.component.html',
   styleUrls: ['./search-input.component.scss']
 })
-export class SearchInputComponent implements OnInit {
+export class SearchInputComponent implements OnInit, AfterViewInit {
+  @ViewChild('searchInput') searchInput: ElementRef;
   @Output() gotSuggestions = new EventEmitter<ForecastItem[]>();
   @Output() resetCity = new EventEmitter<void>();
   searchField: FormControl = new FormControl();
@@ -29,6 +30,10 @@ export class SearchInputComponent implements OnInit {
           console.error(err);
         }
       );
+  }
+
+  ngAfterViewInit () {
+    this.searchInput.nativeElement.focus();
   }
 
   handleInputChanges (): Observable<object | null | []> {

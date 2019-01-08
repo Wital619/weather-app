@@ -2,6 +2,7 @@
   <input class="search-form__input"
          [formControl]="searchField"
          (input)="onResetSelectedCity()"
+         #searchInput
          name="search"
          type="text"
          placeholder="Search..">

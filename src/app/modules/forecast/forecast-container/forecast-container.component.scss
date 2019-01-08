@@ -1,12 +1,10 @@
 @import '../../../styles/button';
 
-.forecast-container {
-  width: 800px;
-  margin: 0 auto;
+.forecast-info {
+  padding-top: 15px;
 }
 
 .city-title {
-  margin-top: 15px;
   font-weight: normal;
 
   span {
@@ -26,6 +24,7 @@
 
 .cities-list {
   display: inline-flex;
+  flex-wrap: wrap;
 
   &__item {
     margin-right: 5px;

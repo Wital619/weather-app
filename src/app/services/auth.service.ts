@@ -42,7 +42,7 @@ export class AuthService {
     }
   }
 
-  getUserCities (): Observable<SelectedCity[] | null> {
+  getUserCities (): Observable<SelectedCity[]> {
     if (this.authUser) {
       return this.firebaseDB
         .object(`/users/${this.authUser.id}/cities`)
@@ -51,7 +51,7 @@ export class AuthService {
           map((cities: string) => JSON.parse(cities))
         );
     } else {
-      return of(null);
+      return of([]);
     }
   }
 
