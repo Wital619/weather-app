@@ -13,7 +13,10 @@
     </ul>
   </nav>
   <div class="content-wrapper">
-    <router-outlet></router-outlet>
+    <div class="content"
+         [style.justify-content]="router.url === '/forecast' ? null : 'center'">
+      <router-outlet></router-outlet>
+    </div>
   </div>
 </div>
 <app-footer></app-footer>

@@ -1,3 +1,54 @@
-<p>
-  home works!
-</p>
+<main *ngIf="weatherData" class="weather">
+  <h3 class="weather__header">
+    Current weather in
+    <span class="weather__city">&nbsp;{{weatherData.name}}&nbsp;</span>
+    <app-country-icon [countrySign]="weatherData.sys.country"></app-country-icon>
+  </h3>
+  <p class="weather__date">Now is {{weatherData.dt * 1000 | date: 'EEEE, MMMM d, y, h:mm a'}}</p>
+  <div class="weather__data-wrapper">
+    <div class="weather__left-data">
+      <div class="weather__data">
+        <app-weather-icon
+          [iconName]="weatherData.weather.icon"
+          [iconTitle]="weatherData.weather.main"
+          [iconSize]="'100px'">
+        </app-weather-icon>
+        <div class="weather__description">
+          {{weatherData.main.temp}}°C,
+          {{weatherData.weather.description}}
+        </div>
+      </div>
+      <div class="weather__sun">
+        <div>Sunrise: {{weatherData.sys.sunrise * 1000 | date: 'shortTime'}}</div>
+        <div>Sunset: {{weatherData.sys.sunset * 1000 | date: 'shortTime'}}</div>
+      </div>
+    </div>
+    <table class="weather__table">
+      <tr>
+        <td>Wind</td>
+        <td class="wind-cell">
+          <div>
+            <app-wind-direction-icon
+              [degree]="weatherData.wind.deg"
+              [windDirection]="weatherData.wind.dirText">
+            </app-wind-direction-icon>
+            &nbsp;{{weatherData.wind.speed}} m/s
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>Pressure</td>
+        <td>{{weatherData.main.pressure | toMillimeters}} mm</td>
+      </tr>
+      <tr>
+        <td>Humidity</td>
+        <td>{{weatherData.main.humidity}}%</td>
+      </tr>
+      <tr>
+        <td>Clouds</td>
+        <td>{{weatherData.clouds.all}}%</td>
+      </tr>
+    </table>
+  </div>
+
+</main>

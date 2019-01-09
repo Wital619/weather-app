@@ -1,7 +1,7 @@
 import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
-import {ForecastItem} from '../../../models/forecast.interface';
 import {WeatherService} from '../../../services/weather.service';
 import {Subscription} from 'rxjs';
+import {ForecastItem} from '../../../models/forecast-item.interface';
 
 @Component({
   selector: 'app-forecast-list',

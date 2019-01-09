@@ -1,18 +1,14 @@
 import {Inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {AngularFireDatabase} from '@angular/fire/database';
 import {map, startWith, switchMap, withLatestFrom} from 'rxjs/operators';
 import {Observable, of, ReplaySubject, Subject} from 'rxjs';
 
 import {AuthService} from './auth.service';
 import {environment} from '../../environments/environment';
-import {CARDINAL_POINTS} from '../consts';
-import {
-  Forecast,
-  ForecastItem,
-  ForecastWind
-} from '../models/forecast.interface';
+import {Forecast} from '../models/forecast.interface';
 import {SelectedCity} from '../models/selected-city.interface';
+import {UtilityManager} from './utility.manager';
+import {Weather} from '../models/weather.interface';
 
 @Injectable()
 export class WeatherService {
@@ -20,19 +16,19 @@ export class WeatherService {
   private resetSource = new Subject<void>();
   private recentCityIdSource = new ReplaySubject<number>(1);
 
-  readonly reset$ = this.resetSource.asObservable();
-  readonly recentCityId$ = this.recentCityIdSource.asObservable();
+  readonly reset$: Observable<void> = this.resetSource.asObservable();
+  readonly recentCityId$: Observable<number> = this.recentCityIdSource.asObservable();
 
-  urls = {
+  private readonly urls = {
     find: `http://api.openweathermap.org/data/2.5/find?appid=${environment.api}&type=like&q=`,
-    forecast: `http://api.openweathermap.org/data/2.5/forecast?appid=${environment.api}&id=`,
-    weather: `http://api.openweathermap.org/data/2.5/weather?appid=${environment.api}&q=`,
+    forecast: `http://api.openweathermap.org/data/2.5/forecast?appid=${environment.api}&units=metric&id=`,
+    weather: `http://api.openweathermap.org/data/2.5/weather?appid=${environment.api}&units=metric&id=`,
   };
 
   constructor (
     private http: HttpClient,
     private authService: AuthService,
-    private firebaseDB: AngularFireDatabase,
+    private utilityManager: UtilityManager,
     @Inject('moment') private moment
   ) {}
 
@@ -58,10 +54,22 @@ export class WeatherService {
     return this.http.get(`${this.urls.find}${searchText}`);
   }
 
+  getWeather (cityId: number): Observable<object> {
+    return this.http.get(`${this.urls.weather}${cityId}`);
+  }
+
+  getForecast (cityId: number): Observable<object> {
+    return this.http.get(`${this.urls.forecast}${cityId}`).pipe(
+      map((res: Forecast) => {
+        return this.utilityManager.transformForecast(res);
+      })
+    );
+  }
+
   getCityForecast (cityId: number): Observable<any[]> {
     return this.authService.getUserCity()
       .pipe(
-        switchMap((res: SelectedCity | null) => {
+        switchMap((res: SelectedCity) => {
           if (cityId || res) {
             return this.getForecast(cityId || res.id)
               .pipe(
@@ -74,62 +82,20 @@ export class WeatherService {
       );
   }
 
-  getForecast (cityId: number): Observable<object> {
-    return this.http.get(`${this.urls.forecast}${cityId}&units=metric`).pipe(
-      map((res: Forecast) => {
-        const list = res.list.map((item: ForecastItem) => ({
-          ...item,
-          wind: this.transformDegreeToDirection(item.wind),
-          weather: item.weather[0]
-        }));
-
-        return {
-          city: res.city,
-          ...this.getDividedForecastByDay(list)
-        };
-      })
-    );
-  }
-
-  transformDegreeToDirection (wind: ForecastWind ): ForecastWind {
-    const point = CARDINAL_POINTS.find(cardinalPoint => {
-      return wind.deg >= cardinalPoint.minimumAzimuth &&
-        wind.deg <= cardinalPoint.maximumAzimuth;
-    });
-
-    return {
-      speed: wind.speed,
-      dirText: point.dirText,
-      dirMark: point.dirMark
-    };
-  }
-
-  getDividedForecastByDay (forecastList: ForecastItem[]): object {
-    const dividedForecastList: ForecastItem[][] = [];
-    const tabData = [];
-    let prevIndex: number = null;
-
-    forecastList.forEach(forecastItem => {
-      const moment = this.moment(forecastItem.dt_txt);
-
-      const dayIndex = moment.day();
-      const dayName = moment.format('dddd');
-      const dayNumber = moment.date();
-      const month = moment.format('MMMM');
-
-      if (dayIndex !== prevIndex) {
-        tabData.push({ dayName, dayNumber, dayIndex, month });
-        dividedForecastList[dayIndex] = [].concat(forecastItem);
-
-        prevIndex = dayIndex;
-      } else {
-        dividedForecastList[dayIndex].push(forecastItem);
-      }
-    });
-
-    return {
-      list: dividedForecastList,
-      tabData
-    };
+  getCityWeather () {
+    return this.authService.getUserCity()
+      .pipe(
+        switchMap((res: SelectedCity) => {
+          if (res) {
+            return this.getWeather(res.id).pipe(
+              map((weatherData: Weather) => {
+                return this.utilityManager.transformWeatherData(weatherData);
+              })
+            );
+          } else {
+            return of(null);
+          }
+        })
+      );
   }
 }

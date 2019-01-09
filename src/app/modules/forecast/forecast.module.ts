@@ -9,17 +9,24 @@ import {ForecastContainerComponent} from './forecast-container/forecast-containe
 import {ForecastTabsComponent} from './forecast-tabs/forecast-tabs.component';
 import {ForecastListComponent} from './forecast-list/forecast-list.component';
 import {HomeComponent} from './home/home.component';
+import {WeatherIconComponent} from './icons/weather-icon/weather-icon.component';
+import {WindDirectionIconComponent} from './icons/wind-direction-icon/wind-direction-icon.component';
+import {CountryIconComponent} from './icons/country-icon/country-icon.component';
 
 import {PressurePipe} from '../../pipes/pressure.pipe';
 import {DayTimePipe} from '../../pipes/day-time.pipe';
 
 import {WeatherService} from '../../services/weather.service';
+import {UtilityManager} from '../../services/utility.manager';
 
 @NgModule({
   declarations: [
     ForecastContainerComponent,
     ForecastTabsComponent,
     ForecastListComponent,
+    WeatherIconComponent,
+    WindDirectionIconComponent,
+    CountryIconComponent,
     HomeComponent,
     PressurePipe,
     DayTimePipe
@@ -34,7 +41,8 @@ import {WeatherService} from '../../services/weather.service';
     {
       provide: 'moment', useFactory: (): any => moment
     },
-    WeatherService
+    WeatherService,
+    UtilityManager
   ],
   exports: [ForecastContainerComponent]
 })

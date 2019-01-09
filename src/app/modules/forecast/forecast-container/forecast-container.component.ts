@@ -1,17 +1,15 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {Subject} from 'rxjs';
-import {take, takeUntil, takeWhile} from 'rxjs/operators';
+import {take, takeUntil} from 'rxjs/operators';
 import {WeatherService} from '../../../services/weather.service';
-import {
-  DividedForecast,
-  ForecastCity,
-  ForecastItem,
-  TabData
-} from '../../../models/forecast.interface';
 import {Router} from '@angular/router';
 import {AuthService} from '../../../services/auth.service';
 import {SelectedCity} from '../../../models/selected-city.interface';
+import {ForecastItem} from '../../../models/forecast-item.interface';
+import {TabData} from '../../../models/tab-data.interface';
+import {ForecastCity} from '../../../models/forecast-city.interface';
+import {TransformedForecast} from '../../../models/transformed-forecast.interface';
 
 @Component({
   selector: 'app-forecast-container',
@@ -69,7 +67,7 @@ export class ForecastContainerComponent implements OnInit, OnDestroy {
 
     this.weatherService.getCityForecast(cityIdFromClick || this.cityIdFromSearch)
       .subscribe(
-        (res: [DividedForecast, SelectedCity]) => {
+        (res: [TransformedForecast, SelectedCity]) => {
           const [forecast, userCity] = res;
 
           if (forecast) {

@@ -6,7 +6,7 @@ import {AngularFireModule} from '@angular/fire';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {NgxSpinnerModule} from 'ngx-spinner';
-import {SharedModule} from './modules/shared/shared.module';
+import {PublicModule} from './modules/public/public.module';
 import {ForecastModule} from './modules/forecast/forecast.module';
 import {SearchModule} from './modules/search/search.module';
 
@@ -21,14 +21,14 @@ import {environment} from '../environments/environment';
   imports: [
     BrowserModule,
     FormsModule,
-    ReactiveFormsModule,
     AppRoutingModule,
+    ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     NgxSpinnerModule,
     ForecastModule,
-    SharedModule,
+    PublicModule,
     SearchModule
   ],
   providers: [AuthService],

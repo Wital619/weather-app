@@ -35,4 +35,4 @@ import {AuthGuardService} from '../../guards/auth-guard.service';
     RegisterComponent
   ]
 })
-export class SharedModule { }
+export class PublicModule { }

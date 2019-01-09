@@ -14,7 +14,7 @@ import {SelectedCity} from '../models/selected-city.interface';
 
 @Injectable()
 export class AuthService {
-  _authUser: AuthUser = null;
+  private _authUser: AuthUser = null;
 
   constructor (
     public firebaseAuth: AngularFireAuth,

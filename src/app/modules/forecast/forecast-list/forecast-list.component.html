@@ -9,16 +9,22 @@
   </tr>
   <tr *ngFor="let forecastItem of currentList">
     <td>{{forecastItem.dt_txt | date: 'shortTime'}}</td>
-    <td class="icon">
-      <img src="http://openweathermap.org/img/w/{{forecastItem.weather.icon}}.png" alt="">
+    <td>
+      <app-weather-icon
+        [iconName]="forecastItem.weather.icon"
+        [iconTitle]="forecastItem.weather.main">
+      </app-weather-icon>
     </td>
     <td>{{forecastItem.weather.description}}</td>
     <td>{{forecastItem.main.pressure | toMillimeters}}</td>
     <td>
-      <span class="wind-dir-icon" title="{{forecastItem.wind.dirText}}">
-        {{forecastItem.wind.dirMark}}
-      </span>
-      {{forecastItem.wind.speed | number: '.2-2'}}
+      <div class="forecast-wind">
+        <app-wind-direction-icon
+          [degree]="forecastItem.wind.deg"
+          [windDirection]="forecastItem.wind.dirText">
+        </app-wind-direction-icon>
+        &nbsp;{{forecastItem.wind.speed | number: '.2-2'}}
+      </div>
     </td>
     <td>{{forecastItem.main.humidity}}</td>
   </tr>

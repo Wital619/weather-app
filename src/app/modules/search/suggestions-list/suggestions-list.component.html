@@ -4,10 +4,9 @@
       [class.selected]="suggestion.id === selectedSuggestionId"
       (click)="onSelectSuggestion(suggestion.id)">
     <img src="https://www.countryflags.io/{{suggestion.country | lowercase}}/flat/24.png"
-         class="suggestion__icon"
          [title]="suggestion.country"
-         alt="country">
-    <p class="suggestion__city-name">{{suggestion.name}}</p>
+         alt="country-flag">
+    <p class="suggestion__city-name">&nbsp;{{suggestion.name}}</p>
   </li>
 </ul>
 <div *ngIf="suggestions && !suggestions.length" class="not-found">Not found</div>

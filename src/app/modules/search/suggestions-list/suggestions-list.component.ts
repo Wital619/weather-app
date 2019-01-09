@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {ForecastCity} from '../../../models/forecast.interface';
 import {WeatherService} from '../../../services/weather.service';
 import {Subscription} from 'rxjs';
 import {SelectedCity} from '../../../models/selected-city.interface';
+import {ForecastCity} from '../../../models/forecast-city.interface';
 
 @Component({
   selector: 'app-suggestions-list',

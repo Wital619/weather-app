@@ -17,7 +17,6 @@ import {SuggestionsListComponent} from './suggestions-list/suggestions-list.comp
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [],
   exports: [
     SearchContainerComponent
   ]

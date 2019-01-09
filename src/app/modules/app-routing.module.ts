@@ -2,9 +2,9 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
 
-import {LoginComponent} from './shared/login/login.component';
-import {RegisterComponent} from './shared/register/register.component';
-import {NotFoundComponent} from './shared/not-found/not-found.component';
+import {LoginComponent} from './public/login/login.component';
+import {RegisterComponent} from './public/register/register.component';
+import {NotFoundComponent} from './public/not-found/not-found.component';
 import {ForecastContainerComponent} from './forecast/forecast-container/forecast-container.component';
 import {SearchContainerComponent} from './search/search-container/search-container.component';
 import {HomeComponent} from './forecast/home/home.component';

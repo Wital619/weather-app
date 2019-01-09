@@ -3,8 +3,9 @@ import {AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output, View
 import {WeatherService} from '../../../services/weather.service';
 import {FormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, map, pluck, switchMap} from 'rxjs/operators';
-import {ForecastItem} from '../../../models/forecast.interface';
 import {Observable, of} from 'rxjs';
+import {ForecastItem} from '../../../models/forecast-item.interface';
+import {ForecastCity} from '../../../models/forecast-city.interface';
 
 @Component({
   selector: 'app-search-input',
@@ -13,7 +14,7 @@ import {Observable, of} from 'rxjs';
 })
 export class SearchInputComponent implements OnInit, AfterViewInit {
   @ViewChild('searchInput') searchInput: ElementRef;
-  @Output() gotSuggestions = new EventEmitter<ForecastItem[]>();
+  @Output() gotSuggestions = new EventEmitter<ForecastCity[]>();
   @Output() resetCity = new EventEmitter<void>();
   searchField: FormControl = new FormControl();
 
@@ -23,7 +24,7 @@ export class SearchInputComponent implements OnInit, AfterViewInit {
     this.onGotSuggestions(null);
     this.handleInputChanges()
       .subscribe(
-        (res: object | null | []) => {
+        (res: ForecastCity[] | null) => {
           this.onGotSuggestions(res);
         },
         err => {
@@ -66,11 +67,11 @@ export class SearchInputComponent implements OnInit, AfterViewInit {
       );
   }
 
-  onGotSuggestions (suggestions) {
+  onGotSuggestions (suggestions: ForecastCity[]): void {
     this.gotSuggestions.emit(suggestions);
   }
 
-  onResetSelectedCity () {
+  onResetSelectedCity (): void {
     this.weatherService.resetSelectedCity();
   }
 }

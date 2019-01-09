@@ -2,8 +2,10 @@ import {Component} from '@angular/core';
 import {AngularFireDatabase} from '@angular/fire/database';
 import {Router} from '@angular/router';
 import {AuthService} from '../../../services/auth.service';
-import {SelectedCity} from '../../../models/selected-city.interface';
 import {WeatherService} from '../../../services/weather.service';
+
+import {SelectedCity} from '../../../models/selected-city.interface';
+import {ForecastCity} from '../../../models/forecast-city.interface';
 
 @Component({
   selector: 'app-search',
@@ -11,7 +13,7 @@ import {WeatherService} from '../../../services/weather.service';
   styleUrls: ['./search-container.component.scss']
 })
 export class SearchContainerComponent {
-  suggestions: object[] = [];
+  suggestions: ForecastCity[] = [];
 
   constructor (
     private authService: AuthService,
@@ -20,7 +22,7 @@ export class SearchContainerComponent {
     private router: Router
   ) {}
 
-  setSuggestions (suggestions: object[]): void {
+  setSuggestions (suggestions: ForecastCity[]): void {
     this.suggestions = suggestions;
   }
 
