@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
+import {NgxSpinnerService} from 'ngx-spinner';
+import {ShowToastrService} from '../../../services/show-toastr.service';
 import {WeatherService} from '../../../services/weather.service';
 import {Weather} from '../../../models/weather.interface';
-import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,8 @@ export class HomeComponent implements OnInit {
 
   constructor (
     private weatherService: WeatherService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private toastr: ShowToastrService
   ) {}
 
   ngOnInit () {
@@ -25,8 +27,8 @@ export class HomeComponent implements OnInit {
           this.spinner.hide();
         },
         err => {
-          console.log(err);
           this.spinner.hide();
+          this.toastr.showError('Couldn\'t get the current weather', err);
         }
       );
   }

@@ -1,13 +1,23 @@
 <div class="form-wrapper">
-  <form class="form">
+  <form class="form"
+        (ngSubmit)="doLogin(form.valid)"
+        #form="ngForm"
+        novalidate>
     <div class="form__group">
       <label class="form__label" for="email">Email</label>
       <input class="form__input"
              id="email"
              type="email"
              name="email"
+             placeholder="Type your email"
+             pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+             required
              [(ngModel)]="userData.email"
-             placeholder="Type your email">
+             #email="ngModel">
+      <div *ngIf="form.submitted && email.invalid" class="error-block">
+        <div *ngIf="email.errors.required">Email is required</div>
+        <div *ngIf="email.errors.pattern">Email must be a valid email address</div>
+      </div>
     </div>
     <div class="form__group form__group--last">
       <label class="form__label" for="password">Password</label>
@@ -15,10 +25,15 @@
              id="password"
              type="password"
              name="password"
+             placeholder="Type your password"
+             required
              [(ngModel)]="userData.password"
-             placeholder="Type your password">
+             #password="ngModel">
+      <div *ngIf="form.submitted && password.invalid" class="error-block">
+        <div *ngIf="password.errors.required">Password is required</div>
+      </div>
     </div>
-    <button class="btn btn--email" type="submit" (click)="doLogin()">Login</button>
+    <button class="btn btn--email">Login</button>
   </form>
   <div class="auth-buttons">
     Also you can login with:

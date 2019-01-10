@@ -9,8 +9,6 @@ export interface ForecastItem {
   dt: number;
   dt_txt: string;
   main: ForecastMain;
-  rain: { '3h': number; };
-  snow: { '3h': number; };
   sys: { country: string };
   weather: ForecastWeather;
   wind: ForecastWind;

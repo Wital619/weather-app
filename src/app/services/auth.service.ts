@@ -2,14 +2,13 @@ import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFireDatabase} from '@angular/fire/database';
 import * as firebase from 'firebase/app';
+import DataSnapshot = firebase.database.DataSnapshot;
 import UserCredential = firebase.auth.UserCredential;
-
+import {User} from 'firebase';
 import {Observable, of} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {AuthUser} from '../models/auth-user.interface';
 import {RegData} from '../models/reg-data.model';
-import {User} from 'firebase';
-import {map} from 'rxjs/operators';
-import DataSnapshot = firebase.database.DataSnapshot;
 import {SelectedCity} from '../models/selected-city.interface';
 
 @Injectable()
@@ -18,7 +17,7 @@ export class AuthService {
 
   constructor (
     public firebaseAuth: AngularFireAuth,
-    public firebaseDB: AngularFireDatabase,
+    public firebaseDB: AngularFireDatabase
   ) {}
 
   get authUser (): AuthUser {
@@ -71,6 +70,7 @@ export class AuthService {
         .once('value')
         .then((res: DataSnapshot) => {
           const citiesStr: string = res.val();
+
           return citiesStr ? JSON.parse(citiesStr) : [];
         })
         .then(
@@ -84,14 +84,11 @@ export class AuthService {
                 .object(`/users/${this.authUser.id}/cities`)
                 .set(citiesJson);
             }
-          })
-        .catch(err => {
-          console.log(err);
-        });
+          });
     }
   }
 
-  getAuthState (): Observable<User | null> {
+  getAuthState (): Observable<User> {
     return this.firebaseAuth.authState;
   }
 

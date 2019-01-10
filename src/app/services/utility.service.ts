@@ -1,12 +1,12 @@
 import {Inject, Injectable} from '@angular/core';
-import {CARDINAL_POINTS} from '../consts';
 import {ForecastWind} from '../models/forecast-wind.interface';
 import {ForecastItem} from '../models/forecast-item.interface';
 import {Weather} from '../models/weather.interface';
 import {Forecast} from '../models/forecast.interface';
+import {CARDINAL_POINTS} from '../shared/consts';
 
 @Injectable()
-export class UtilityManager {
+export class UtilityService {
   constructor (@Inject('moment') private moment) {}
 
   transformForecast (forecast: Forecast) {
@@ -36,7 +36,7 @@ export class UtilityManager {
 
     return {
       ...wind,
-      dirText: point.dirText
+      dirText: point ? point.dirText : 'unknown'
     };
   }
 

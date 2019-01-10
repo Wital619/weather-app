@@ -3,7 +3,7 @@ import {AngularFireDatabase} from '@angular/fire/database';
 import {Router} from '@angular/router';
 import {AuthService} from '../../../services/auth.service';
 import {WeatherService} from '../../../services/weather.service';
-
+import {ShowToastrService} from '../../../services/show-toastr.service';
 import {SelectedCity} from '../../../models/selected-city.interface';
 import {ForecastCity} from '../../../models/forecast-city.interface';
 
@@ -18,6 +18,7 @@ export class SearchContainerComponent {
   constructor (
     private authService: AuthService,
     private weatherService: WeatherService,
+    private toastr: ShowToastrService,
     private firebaseDB: AngularFireDatabase,
     private router: Router
   ) {}
@@ -31,15 +32,23 @@ export class SearchContainerComponent {
 
     if (isDefault) {
       this.authService.setUserCity(city)
-        .then(() => {
-          this.authService.setRecentCity(city)
-            .then(() => {
-              this.goToForecast();
-            });
-        })
-        .catch(err => {
-          console.log(err);
-        });
+        .then(
+          () => {
+            this.authService.setRecentCity(city)
+              .then(
+                () => {
+                  this.toastr.showSuccess('The city has been successfully set');
+                  this.goToForecast();
+                },
+                err => {
+                  this.toastr.showError('Couldn\'t add the city to recent cities collection', err);
+                }
+              );
+          },
+          err => {
+            this.toastr.showError('Couldn\'t set the city', err);
+          }
+        );
     } else {
       this.authService.setRecentCity(city)
         .then(
@@ -49,7 +58,7 @@ export class SearchContainerComponent {
           }
         )
         .catch(err => {
-          console.log(err);
+          this.toastr.showError('Couldn\'t add the city to recent cities collection', err);
         });
     }
   }

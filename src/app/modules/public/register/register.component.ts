@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AuthService} from '../../../services/auth.service';
+import {ShowToastrService} from '../../../services/show-toastr.service';
 import {RegData} from '../../../models/reg-data.model';
 
 @Component({
@@ -13,11 +14,14 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   submitted = false;
 
-  constructor(private fb: FormBuilder,
-              private router: Router,
-              private authService: AuthService) { }
+  constructor (
+    private fb: FormBuilder,
+    private router: Router,
+    private authService: AuthService,
+    private toastr: ShowToastrService
+  ) { }
 
-  ngOnInit() {
+  ngOnInit () {
     this.registerForm = this.fb.group({
       userName: ['', [
         Validators.required,
@@ -75,10 +79,11 @@ export class RegisterComponent implements OnInit {
       this.authService.doRegister(regData)
         .then(
           () => {
+            this.toastr.showSuccess('Registration was successful, now you can log in');
             this.router.navigate(['/login']);
           },
           err => {
-            console.error('Couldn\'t register', err);
+            this.toastr.showError('Couldn\'t register you', err);
           }
         );
     }

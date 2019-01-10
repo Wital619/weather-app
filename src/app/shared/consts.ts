@@ -1,5 +1,4 @@
 export const PRESSURE_COEFFICIENT = 0.750064;
-
 export const CARDINAL_POINTS = [
   {
     minimumAzimuth: 337.5,

@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {WeatherService} from '../../../services/weather.service';
+import {ShowToastrService} from '../../../services/show-toastr.service';
 import {Subscription} from 'rxjs';
 import {SelectedCity} from '../../../models/selected-city.interface';
 import {ForecastCity} from '../../../models/forecast-city.interface';
@@ -16,13 +17,21 @@ export class SuggestionsListComponent implements OnInit, OnDestroy {
   selectedSuggestionId: number = null;
   selectedSuggestionIdSub: Subscription;
 
-  constructor (private weatherService: WeatherService) {}
+  constructor (
+    private weatherService: WeatherService,
+    private toastr: ShowToastrService
+  ) {}
 
   ngOnInit () {
     this.selectedSuggestionIdSub = this.weatherService.reset$
-      .subscribe(() => {
-        this.selectedSuggestionId = null;
-      });
+      .subscribe(
+        () => {
+          this.selectedSuggestionId = null;
+        },
+        err => {
+          this.toastr.showError('Couldn\'t reset the city suggestions', err);
+        }
+      );
   }
 
   onSelectSuggestion (suggestionId: number): void {

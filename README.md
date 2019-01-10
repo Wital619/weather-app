@@ -1,27 +1,85 @@
-# WeatherApp
+# Weather App
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.1.3.
+This is a Weather Application.
+The audience of users for app is any. 
+The main objective is to display weather information in cities around the world.
+The data taken from an [openweathermap API](https://openweathermap.org/).
 
-## Development server
+[Demo](https://weather-app-wital619.herokuapp.com)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Functions
+- authorization and registration
+- save the user's city in database for weather information on future visits
+- display current weather data
+- display 5 day forecast, that includes weather data every 3 hours
+- make city search
 
-## Code scaffolding
+## Tech stack
+ - HTML
+ - CSS (SCSS)
+ - Angular 7
+ - [RxJS](https://github.com/ReactiveX/rxjs)
+ - [Moment.js](https://github.com/moment/moment)
+ - [ngx-spinner](https://github.com/Napster2210/ngx-spinner)
+ - [ngx-toastr](https://github.com/scttcper/ngx-toastr)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Prerequisites
 
-## Build
+- An [openweathermap](https://openweathermap.org/) API key.
+- A [firebase](https://console.firebase.google.com/) config data.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+## Installation and usage
 
-## Running unit tests
+Clone the repo
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```
+$ git clone https://github.com/Wital619/weather-app.git yourFolderName
+```
 
-## Running end-to-end tests
+```
+$ cd yourFolderName
+```
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+```
+$ npm i
+```
 
-## Further help
+In the project's `src` folder create a folder with name `environments`
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+In the created folder create a file named environment.ts
+
+The file must have the next structure:
+
+```
+export const environment = {
+  production: false,
+  firebase: {
+    apiKey: '',
+    authDomain: '',
+    databaseURL: '',
+    projectId: '',
+    storageBucket: '',
+    messagingSenderId: ''
+  },
+  api: ''
+};
+```
+
+Instead of the empty strings input your firebase config data and openweathermap api key as well.
+
+To work correctly you must also configure:
+- firebase authentication by adding sign-in methods - email and password, Google and Facebook;
+- firebase database by setting its config's read and write rules to the truth.
+
+```
+$ ng serve
+```
+
+Navigate to `http://localhost:4200/`
+
+## Authors
+
+[Vitaliy Pogoretskyy](https://github.com/Wital619)
+
+## Front-end camp
+[Facebook](https://www.facebook.com/groups/270300106928894)

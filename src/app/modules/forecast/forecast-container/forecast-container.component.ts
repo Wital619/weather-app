@@ -3,8 +3,8 @@ import {NgxSpinnerService} from 'ngx-spinner';
 import {Subject} from 'rxjs';
 import {take, takeUntil} from 'rxjs/operators';
 import {WeatherService} from '../../../services/weather.service';
-import {Router} from '@angular/router';
 import {AuthService} from '../../../services/auth.service';
+import {ShowToastrService} from '../../../services/show-toastr.service';
 import {SelectedCity} from '../../../models/selected-city.interface';
 import {ForecastItem} from '../../../models/forecast-item.interface';
 import {TabData} from '../../../models/tab-data.interface';
@@ -30,8 +30,8 @@ export class ForecastContainerComponent implements OnInit, OnDestroy {
   constructor (
     private authService: AuthService,
     private weatherService: WeatherService,
-    private router: Router,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private toastr: ShowToastrService
   ) {}
 
   ngOnInit () {
@@ -48,8 +48,10 @@ export class ForecastContainerComponent implements OnInit, OnDestroy {
       )
       .subscribe(
         (res: number) => {
-          console.log(res);
           this.cityIdFromSearch = res;
+        },
+        err => {
+          this.toastr.showError('Search failed', err);
         }
       );
   }
@@ -57,9 +59,14 @@ export class ForecastContainerComponent implements OnInit, OnDestroy {
   getUserCities (): void {
     this.authService.getUserCities()
       .pipe(takeUntil(this.destroy))
-      .subscribe((res: SelectedCity[]) => {
-        this.recentCities = res;
-      });
+      .subscribe(
+        (res: SelectedCity[]) => {
+          this.recentCities = res;
+        },
+        err => {
+          this.toastr.showError('Couldn\'t get cities list from database', err);
+        }
+      );
   }
 
   getCityForecast (cityIdFromClick?: number): void {
@@ -85,14 +92,10 @@ export class ForecastContainerComponent implements OnInit, OnDestroy {
           this.spinner.hide();
         },
         err => {
-          console.log(err);
           this.spinner.hide();
+          this.toastr.showError('Couldn\'t get the city forecast', err);
         }
       );
-  }
-
-  goToSearch () {
-    this.router.navigate(['/search']);
   }
 
   ngOnDestroy () {

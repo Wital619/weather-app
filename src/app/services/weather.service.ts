@@ -2,12 +2,11 @@ import {Inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {map, startWith, switchMap, withLatestFrom} from 'rxjs/operators';
 import {Observable, of, ReplaySubject, Subject} from 'rxjs';
-
 import {AuthService} from './auth.service';
-import {environment} from '../../environments/environment';
+import {environment} from '../../environments/environment.prod';
 import {Forecast} from '../models/forecast.interface';
 import {SelectedCity} from '../models/selected-city.interface';
-import {UtilityManager} from './utility.manager';
+import {UtilityService} from './utility.service';
 import {Weather} from '../models/weather.interface';
 
 @Injectable()
@@ -20,15 +19,15 @@ export class WeatherService {
   readonly recentCityId$: Observable<number> = this.recentCityIdSource.asObservable();
 
   private readonly urls = {
-    find: `http://api.openweathermap.org/data/2.5/find?appid=${environment.api}&type=like&q=`,
-    forecast: `http://api.openweathermap.org/data/2.5/forecast?appid=${environment.api}&units=metric&id=`,
-    weather: `http://api.openweathermap.org/data/2.5/weather?appid=${environment.api}&units=metric&id=`,
+    find: `https://api.openweathermap.org/data/2.5/find?appid=${environment.api}&type=like&q=`,
+    forecast: `https://api.openweathermap.org/data/2.5/forecast?appid=${environment.api}&units=metric&id=`,
+    weather: `https://api.openweathermap.org/data/2.5/weather?appid=${environment.api}&units=metric&id=`,
   };
 
   constructor (
     private http: HttpClient,
     private authService: AuthService,
-    private utilityManager: UtilityManager,
+    private utilityService: UtilityService,
     @Inject('moment') private moment
   ) {}
 
@@ -59,11 +58,7 @@ export class WeatherService {
   }
 
   getForecast (cityId: number): Observable<object> {
-    return this.http.get(`${this.urls.forecast}${cityId}`).pipe(
-      map((res: Forecast) => {
-        return this.utilityManager.transformForecast(res);
-      })
-    );
+    return this.http.get(`${this.urls.forecast}${cityId}`);
   }
 
   getCityForecast (cityId: number): Observable<any[]> {
@@ -73,6 +68,9 @@ export class WeatherService {
           if (cityId || res) {
             return this.getForecast(cityId || res.id)
               .pipe(
+                map((forecast: Forecast) => {
+                  return this.utilityService.transformForecast(forecast);
+                }),
                 withLatestFrom(of(res))
               );
           } else {
@@ -82,14 +80,14 @@ export class WeatherService {
       );
   }
 
-  getCityWeather () {
+  getCityWeather (): Observable<Weather> {
     return this.authService.getUserCity()
       .pipe(
         switchMap((res: SelectedCity) => {
           if (res) {
             return this.getWeather(res.id).pipe(
               map((weatherData: Weather) => {
-                return this.utilityManager.transformWeatherData(weatherData);
+                return this.utilityService.transformWeatherData(weatherData);
               })
             );
           } else {

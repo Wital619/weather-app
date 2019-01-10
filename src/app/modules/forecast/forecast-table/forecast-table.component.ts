@@ -1,17 +1,17 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {WeatherService} from '../../../services/weather.service';
-import {TabData} from '../../../models/tab-data.interface';
-import {ShowToastrService} from '../../../services/show-toastr.service';
 import {Subscription} from 'rxjs';
+import {WeatherService} from '../../../services/weather.service';
+import {ShowToastrService} from '../../../services/show-toastr.service';
+import {ForecastItem} from '../../../models/forecast-item.interface';
 
 @Component({
-  selector: 'app-forecast-tabs',
-  templateUrl: './forecast-tabs.component.html',
-  styleUrls: ['./forecast-tabs.component.scss']
+  selector: 'app-forecast-table',
+  templateUrl: './forecast-table.component.html',
+  styleUrls: ['./forecast-table.component.scss']
 })
-export class ForecastTabsComponent implements OnInit, OnDestroy {
-  @Input() tabs: TabData[];
-  currentTabIndex: number = null;
+export class ForecastTableComponent implements OnInit, OnDestroy {
+  @Input() list: ForecastItem[][];
+  currentList: ForecastItem[] = null;
 
   currentTabIndexSub: Subscription;
 
@@ -24,7 +24,7 @@ export class ForecastTabsComponent implements OnInit, OnDestroy {
     this.currentTabIndexSub = this.weatherService.currentTabIndex$
       .subscribe(
         (res: number) => {
-          this.currentTabIndex = res;
+          this.currentList = this.list[res];
         },
         err => {
           this.toastr.showError('Couldn\'t get the current tab index', err);
@@ -34,9 +34,5 @@ export class ForecastTabsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy () {
     this.currentTabIndexSub.unsubscribe();
-  }
-
-  onTabChange (index: number): void {
-    this.weatherService.setCurrentTabIndex(index);
   }
 }

@@ -3,6 +3,7 @@ import {AuthService} from './services/auth.service';
 import {Router} from '@angular/router';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {AuthUser} from './models/auth-user.interface';
+import {ShowToastrService} from './services/show-toastr.service';
 
 @Component({
   selector: 'app-root',
@@ -11,11 +12,13 @@ import {AuthUser} from './models/auth-user.interface';
 })
 export class AppComponent implements OnInit {
   authUser: AuthUser = null;
+  justifyContent = null;
 
   constructor (
     private authService: AuthService,
     private router: Router,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private toastr: ShowToastrService
   ) {}
 
   ngOnInit() {
@@ -23,6 +26,8 @@ export class AppComponent implements OnInit {
     this.authService.getAuthState()
       .subscribe(
         user => {
+          this.justifyContent = this.router.url === '/forecast' ? null : 'center';
+
           if (user) {
             this.authUser = {
               id: user.uid,
@@ -38,18 +43,19 @@ export class AppComponent implements OnInit {
           }
         },
         err => {
-          console.log(err);
+          this.toastr.showError('Couldn\'t authenticate you', err);
         }
       );
   }
 
-  doSignOut () {
+  doSignOut (): void {
     this.authService.doSignOut()
       .then(() => {
+        this.toastr.showSuccess('Now you are logged out');
         this.router.navigate(['/login']);
       })
       .catch(err => {
-        console.error('Couldn\'t sign out', err);
+        this.toastr.showError('Couldn\'t sign out', err);
       });
   }
 }

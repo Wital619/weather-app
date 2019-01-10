@@ -6,6 +6,7 @@ import {debounceTime, distinctUntilChanged, map, pluck, switchMap} from 'rxjs/op
 import {Observable, of} from 'rxjs';
 import {ForecastItem} from '../../../models/forecast-item.interface';
 import {ForecastCity} from '../../../models/forecast-city.interface';
+import {ShowToastrService} from '../../../services/show-toastr.service';
 
 @Component({
   selector: 'app-search-input',
@@ -18,17 +19,20 @@ export class SearchInputComponent implements OnInit, AfterViewInit {
   @Output() resetCity = new EventEmitter<void>();
   searchField: FormControl = new FormControl();
 
-  constructor (private weatherService: WeatherService) {}
+  constructor (
+    private weatherService: WeatherService,
+    private toastr: ShowToastrService
+  ) {}
 
   ngOnInit () {
     this.onGotSuggestions(null);
     this.handleInputChanges()
       .subscribe(
-        (res: ForecastCity[] | null) => {
+        (res: ForecastCity[] | null | []) => {
           this.onGotSuggestions(res);
         },
         err => {
-          console.error(err);
+          this.toastr.showError('Couldn\'t get the city suggestions', err);
         }
       );
   }
@@ -37,7 +41,7 @@ export class SearchInputComponent implements OnInit, AfterViewInit {
     this.searchInput.nativeElement.focus();
   }
 
-  handleInputChanges (): Observable<object | null | []> {
+  handleInputChanges (): Observable<ForecastCity[] | null | []> {
     return this.searchField
       .valueChanges
       .pipe(

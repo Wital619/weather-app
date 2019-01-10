@@ -43,3 +43,17 @@
     }
   }
 }
+
+.error-block {
+  margin-top: 4px;
+  color: #f00;
+  font-size: 12px;
+
+  div {
+    margin-bottom: 5px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}

@@ -3,8 +3,9 @@
     Current weather in
     <span class="weather__city">&nbsp;{{weatherData.name}}&nbsp;</span>
     <app-country-icon [countrySign]="weatherData.sys.country"></app-country-icon>
+    &nbsp;on
   </h3>
-  <p class="weather__date">Now is {{weatherData.dt * 1000 | date: 'EEEE, MMMM d, y, h:mm a'}}</p>
+  <p class="weather__date">{{weatherData.dt * 1000 | date: 'EEEE, MMMM d, y, h:mm a'}}</p>
   <div class="weather__data-wrapper">
     <div class="weather__left-data">
       <div class="weather__data">
@@ -14,7 +15,7 @@
           [iconSize]="'100px'">
         </app-weather-icon>
         <div class="weather__description">
-          {{weatherData.main.temp}}°C,
+          {{weatherData.main.temp | number: '.0-0'}}°C,
           {{weatherData.weather.description}}
         </div>
       </div>
@@ -50,5 +51,5 @@
       </tr>
     </table>
   </div>
-
 </main>
+<app-without-city *ngIf="!weatherData"></app-without-city>

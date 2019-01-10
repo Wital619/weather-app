@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
-import {AuthService} from '../../../services/auth.service';
 import {Router} from '@angular/router';
+import {AuthService} from '../../../services/auth.service';
+import {ShowToastrService} from '../../../services/show-toastr.service';
 
 @Component({
   selector: 'app-login',
@@ -13,46 +14,57 @@ export class LoginComponent {
     password: ''
   };
 
-  constructor(private authService: AuthService,
-              private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private toastr: ShowToastrService
+  ) {}
 
-  doLogin () {
-    this.authService.loginByEmailAndPassword(this.userData)
-      .then(
-        () => {
-          this.navigateToWeather();
-        },
-        err => {
-          console.error('Couldn\'t login by email and password', err);
-        }
-      );
+  doLogin (isFormValid: boolean): void {
+    if (isFormValid) {
+      this.authService.loginByEmailAndPassword(this.userData)
+        .then(
+          () => {
+            this.toastr.showSuccess('Successfully logged in');
+            this.goToWeather();
+          },
+          err => {
+            const errMessage = err.message || 'Couldn\'t login with email and password';
+            this.toastr.showError(errMessage, err);
+          }
+        );
+    }
   }
 
-  doFacebookLogin () {
+  doFacebookLogin (): void {
     this.authService.loginByFacebook()
       .then(
         () => {
-          this.navigateToWeather();
+          this.toastr.showSuccess('Successfully logged in');
+          this.goToWeather();
         },
         err => {
-          console.error('Couldn\'t login by Facebook', err);
+          const errMessage = err.message || 'Couldn\'t login with Facebook';
+          this.toastr.showError(errMessage, err);
         }
       );
   }
 
-  doGoogleLogin () {
+  doGoogleLogin (): void {
     this.authService.loginByGoogle()
       .then(
         () => {
-          this.navigateToWeather();
+          this.toastr.showSuccess('Successfully logged in');
+          this.goToWeather();
         },
         err => {
-          console.error('Couldn\'t login by Google', err);
+          const errMessage = err.message || 'Couldn\'t login with Google';
+          this.toastr.showError(errMessage, err);
         }
       );
   }
 
-  navigateToWeather () {
+  goToWeather (): void {
     this.router.navigate(['/forecast']);
   }
 }

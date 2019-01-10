@@ -3,8 +3,10 @@
     <th>Time</th>
     <th>Icon</th>
     <th>Description</th>
-    <th>Pressure, mm</th>
+    <th>Temperature, °C</th>
     <th>Wind, m/s</th>
+    <th>Pressure, mm</th>
+    <th>Clouds, %</th>
     <th>Humidity, %</th>
   </tr>
   <tr *ngFor="let forecastItem of currentList">
@@ -16,7 +18,7 @@
       </app-weather-icon>
     </td>
     <td>{{forecastItem.weather.description}}</td>
-    <td>{{forecastItem.main.pressure | toMillimeters}}</td>
+    <td>{{forecastItem.main.temp | number: '.0-0'}}</td>
     <td>
       <div class="forecast-wind">
         <app-wind-direction-icon
@@ -26,6 +28,8 @@
         &nbsp;{{forecastItem.wind.speed | number: '.2-2'}}
       </div>
     </td>
+    <td>{{forecastItem.main.pressure | toMillimeters}}</td>
+    <td>{{forecastItem.clouds.all}}</td>
     <td>{{forecastItem.main.humidity}}</td>
   </tr>
 </table>
