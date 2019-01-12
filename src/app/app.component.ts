@@ -12,7 +12,6 @@ import {ShowToastrService} from './services/show-toastr.service';
 })
 export class AppComponent implements OnInit {
   authUser: AuthUser = null;
-  justifyContent = null;
 
   constructor (
     private authService: AuthService,
@@ -26,8 +25,6 @@ export class AppComponent implements OnInit {
     this.authService.getAuthState()
       .subscribe(
         user => {
-          this.justifyContent = this.router.url === '/forecast' ? null : 'center';
-
           if (user) {
             this.authUser = {
               id: user.uid,
@@ -57,5 +54,9 @@ export class AppComponent implements OnInit {
       .catch(err => {
         this.toastr.showError('Couldn\'t sign out', err);
       });
+  }
+
+  getJustifyContent () {
+    return this.router.url === '/forecast' ? null : 'center';
   }
 }
