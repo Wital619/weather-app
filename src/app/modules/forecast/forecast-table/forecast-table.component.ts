@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {WeatherService} from '../../../services/weather.service';
 import {ShowToastrService} from '../../../services/show-toastr.service';
@@ -9,9 +9,10 @@ import {ForecastItem} from '../../../models/forecast-item.interface';
   templateUrl: './forecast-table.component.html',
   styleUrls: ['./forecast-table.component.scss']
 })
-export class ForecastTableComponent implements OnInit, OnDestroy {
+export class ForecastTableComponent implements OnInit, OnChanges, OnDestroy {
   @Input() list: ForecastItem[][];
   currentList: ForecastItem[] = null;
+  dayIndex: number = null;
 
   currentTabIndexSub: Subscription;
 
@@ -24,12 +25,20 @@ export class ForecastTableComponent implements OnInit, OnDestroy {
     this.currentTabIndexSub = this.weatherService.currentTabIndex$
       .subscribe(
         (res: number) => {
-          this.currentList = this.list[res];
+          this.dayIndex = res;
+          this.currentList = this.list[this.dayIndex];
         },
         err => {
           this.toastr.showError('Couldn\'t get the current tab index', err);
         }
       );
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!changes.list.isFirstChange()) {
+      this.list = changes.list.currentValue;
+      this.currentList = this.list[this.dayIndex];
+    }
   }
 
   ngOnDestroy () {
