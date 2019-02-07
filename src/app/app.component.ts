@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {AuthService} from './services/auth.service';
-import {Router} from '@angular/router';
-import {NgxSpinnerService} from 'ngx-spinner';
-import {AuthUser} from './models/auth-user.interface';
-import {ShowToastrService} from './services/show-toastr.service';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { AuthService } from './core/services/auth.service';
+import { ShowToastrService } from './core/services/show-toastr.service';
+import { AuthUser } from './auth/models/auth-user.interface';
 
 @Component({
   selector: 'app-root',
@@ -49,7 +49,7 @@ export class AppComponent implements OnInit {
     this.authService.doSignOut()
       .then(() => {
         this.toastr.showSuccess('Now you are logged out');
-        this.router.navigate(['/login']);
+        this.router.navigate(['/auth']);
       })
       .catch(err => {
         this.toastr.showError('Couldn\'t sign out', err);
@@ -57,6 +57,6 @@ export class AppComponent implements OnInit {
   }
 
   getJustifyContent () {
-    return this.router.url === '/forecast' ? null : 'center';
+    return this.router.url === '/weather/forecast' ? null : 'center';
   }
 }

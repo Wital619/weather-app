@@ -1,0 +1,20 @@
+@import '../../../shared/styles/vars';
+
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: $footer-height;
+  margin-top: -$footer-height;
+  background-color: $header-bg-color;
+
+  &__data {
+    color: $main-grey;
+    font-size: $header-footer-size;
+  }
+
+  &__divide {
+    margin: 5px;
+    color: #fff;
+  }
+}

@@ -1,0 +1,36 @@
+@import '../../../shared/styles/vars';
+
+.navigation {
+  background-color: $nav-bg-color;
+}
+
+.nav-list {
+  display: flex;
+  justify-content: center;
+  height: 30px;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 10px;
+    color: #ccc;
+    font-size: 1em;
+    outline: none;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #006400;
+      color: #f2f2f2;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.nav-list__item--active {
+  background-color: #006400;
+  color: #f2f2f2;
+}

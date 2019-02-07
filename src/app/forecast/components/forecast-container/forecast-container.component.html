@@ -1,0 +1,36 @@
+<div *ngIf="!isLoading">
+  <div class="forecast-info">
+    <h4 class="city-title">
+      Your city:
+      <span (click)="getCityForecast(userCity.id)">
+      {{userCity ? userCity.name : '-'}}
+    </span>
+    </h4>
+    <h4 class="reminding-header">
+      Search history:
+      {{recentCities && recentCities.length ? '' : '-'}}
+    </h4>
+    <ul class="cities-list">
+      <li *ngFor="let city of recentCities; let i = index"
+          class="cities-list__item"
+          (click)="getCityForecast(city.id, false)">
+        {{city.name}}{{recentCities.length - i !== 1 ? ',' : ''}}
+      </li>
+    </ul>
+  </div>
+  <app-without-city *ngIf="!list || !tabs || !city"></app-without-city>
+  <div *ngIf="list && tabs && city" class="forecast-content">
+    <div class="forecast-header">
+      Let's see weather forecast in {{city.name}}&nbsp;
+      <app-country-icon [countrySign]="city.country"></app-country-icon>
+    </div>
+    <app-forecast-tabs [tabs]="tabs"></app-forecast-tabs>
+    <app-forecast-table [list]="list"></app-forecast-table>
+  </div>
+</div>
+<ngx-spinner
+  bdColor = "rgba(51, 51, 51, 0.8)"
+  size = "large"
+  color = "#fff"
+  type = "ball-8bits"
+></ngx-spinner>

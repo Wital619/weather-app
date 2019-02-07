@@ -1,0 +1,12 @@
+<nav class="navigation">
+  <ul *ngIf="!authUser" class="nav-list">
+    <li class="nav-list__item" routerLink="/auth/login" routerLinkActive="nav-list__item--active">Sign in</li>
+    <li class="nav-list__item" routerLink="/auth/register" routerLinkActive="nav-list__item--active">Sign up</li>
+  </ul>
+  <ul *ngIf="authUser" class="nav-list">
+    <li class="nav-list__item" routerLink="/weather/home" routerLinkActive="nav-list__item--active">Home</li>
+    <li class="nav-list__item" routerLink="/weather/forecast" routerLinkActive="nav-list__item--active">Forecast</li>
+    <li class="nav-list__item" routerLink="/search/find" routerLinkActive="nav-list__item--active">Search</li>
+    <li class="nav-list__item" (click)="signOut()">Sign out</li>
+  </ul>
+</nav>

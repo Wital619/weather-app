@@ -1,23 +1,20 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {NgModule} from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {AppRoutingModule} from './modules/app-routing.module';
-import {AngularFireModule} from '@angular/fire';
-import {AngularFireDatabaseModule} from '@angular/fire/database';
-import {AngularFireAuthModule} from '@angular/fire/auth';
-import {NgxSpinnerModule} from 'ngx-spinner';
-import {ToastrModule} from 'ngx-toastr';
-import {PublicModule} from './modules/public/public.module';
-import {ForecastModule} from './modules/forecast/forecast.module';
-import {SearchModule} from './modules/search/search.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { ToastrModule } from 'ngx-toastr';
+import * as moment from 'moment';
 
-import {AppComponent} from './app.component';
+import { AppRoutingModule } from './app-routing.module';
+import { CoreModule } from './core/core.module';
 
-import {AuthService} from './services/auth.service';
-import {ShowToastrService} from './services/show-toastr.service';
-
-import {environment} from '../environments/environment.prod';
+import { AppComponent } from './app.component';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -26,21 +23,21 @@ import {environment} from '../environments/environment.prod';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     FormsModule,
-    AppRoutingModule,
     ReactiveFormsModule,
+    NgxSpinnerModule,
+    ToastrModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    NgxSpinnerModule,
-    ToastrModule.forRoot(),
-    ForecastModule,
-    PublicModule,
-    SearchModule
+    AppRoutingModule,
+    CoreModule
   ],
   providers: [
-    AuthService,
-    ShowToastrService
+    {
+      provide: 'moment', useFactory: (): any => moment
+    }
   ],
   bootstrap: [AppComponent]
 })
