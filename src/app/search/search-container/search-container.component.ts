@@ -64,6 +64,6 @@ export class SearchContainerComponent {
   }
 
   goToForecast () {
-    this.router.navigate(['/weather']);
+    this.router.navigate(['weather', 'forecast']);
   }
 }

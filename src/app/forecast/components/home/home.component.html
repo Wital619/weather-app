@@ -1,6 +1,6 @@
-<main *ngIf="weatherData" class="weather">
+<main *ngIf="!isLoading && weatherData" class="weather">
   <h3 class="weather__header">
-    Current weather in
+    The weather in
     <span class="weather__city">&nbsp;{{weatherData.name}}&nbsp;</span>
     <app-country-icon [countrySign]="weatherData.sys.country"></app-country-icon>
     &nbsp;on
@@ -52,4 +52,11 @@
     </table>
   </div>
 </main>
-<app-without-city *ngIf="!weatherData"></app-without-city>
+<app-without-city *ngIf="!isLoading && !weatherData"></app-without-city>
+<ngx-spinner
+  bdColor = "rgba(51, 51, 51, 0.8)"
+  size = "large"
+  color = "#fff"
+  type = "ball-8bits"
+></ngx-spinner>
+

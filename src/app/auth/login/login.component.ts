@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { ShowToastrService } from '../../core/services/show-toastr.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-login',
@@ -16,12 +17,14 @@ export class LoginComponent {
 
   constructor(
     private authService: AuthService,
+    private spinner: NgxSpinnerService,
     private router: Router,
     private toastr: ShowToastrService
   ) {}
 
   doLogin (isFormValid: boolean): void {
     if (isFormValid) {
+      this.spinner.show();
       this.authService.loginByEmailAndPassword(this.userData)
         .then(
           () => {
@@ -31,6 +34,7 @@ export class LoginComponent {
           err => {
             const errMessage = err.message || 'Couldn\'t login with email and password';
             this.toastr.showError(errMessage, err);
+            this.spinner.hide();
           }
         );
     }

@@ -11,6 +11,7 @@ import { Weather } from '../../models/weather.interface';
 })
 export class HomeComponent implements OnInit {
   weatherData: Weather = null;
+  isLoading = false;
 
   constructor (
     private weatherService: WeatherService,
@@ -20,14 +21,17 @@ export class HomeComponent implements OnInit {
 
   ngOnInit () {
     this.spinner.show();
+    this.isLoading = true;
     this.weatherService.getCityWeather()
       .subscribe(
         (res: Weather) => {
           this.weatherData = res;
           this.spinner.hide();
+          this.isLoading = false;
         },
         err => {
           this.spinner.hide();
+          this.isLoading = false;
           this.toastr.showError('Couldn\'t get the current weather', err);
         }
       );

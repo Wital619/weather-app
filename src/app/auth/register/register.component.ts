@@ -10,6 +10,7 @@ import {
   checkHavingUpperLetter,
   checkPasswordsMismatch
 } from '../../shared/validators/validators';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-register',
@@ -24,7 +25,8 @@ export class RegisterComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private authService: AuthService,
-    private toastr: ShowToastrService
+    private toastr: ShowToastrService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit () {
@@ -66,6 +68,7 @@ export class RegisterComponent implements OnInit {
         password: this.password.value,
       };
 
+      this.spinner.show();
       this.authService.doRegister(regData)
         .then(
           () => {
@@ -74,6 +77,7 @@ export class RegisterComponent implements OnInit {
           },
           err => {
             this.toastr.showError('Couldn\'t register you', err);
+            this.spinner.hide();
           }
         );
     }
